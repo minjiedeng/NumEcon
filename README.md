@@ -1,6 +1,6 @@
 # NumEcon
 
-This it the GitHub page for **Introduction to programming and numerical analysis** (University of Copehagen, Department of Economics). The page is under development and currently only contains some examples related to intermediate-level microeconomics.
+This it the GitHub page for **Introduction to programming and numerical analysis** (University of Copenhagen, Department of Economics). The page is under development and currently only contains some examples related to intermediate-level microeconomics.
 
 [Launch the interactive version](https://mybinder.org/v2/gh/JeppeDruedahl/NumEcon/master)
 
