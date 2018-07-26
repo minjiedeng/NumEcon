@@ -1,0 +1,6 @@
+numpy==1.14.5
+scipy==1.1.0
+matplotlib==2.2.2
+ipywidgets==7.2.1
+bokeh==0.12.16
+jupyter_contrib_nbextensions
