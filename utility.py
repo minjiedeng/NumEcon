@@ -153,13 +153,15 @@ def draw(par):
 
     # b. basic figure
     fig =  figure(plot_height=400, plot_width=400, x_range=(0,10), y_range=(0,10))
-
+    fig.xaxis.axis_label = 'x1'
+    fig.yaxis.axis_label = 'x2'
+    
     par.ax = []
     for i in range(len(indiff_sets)):
         if par.plot_type == 'line':
-            par.ax.append(fig.line(indiff_sets[i][0],indiff_sets[i][1], color="#2222aa", line_width=3, alpha=0.5))
+            par.ax.append(fig.line(indiff_sets[i][0],indiff_sets[i][1], color="navy", line_width=3, alpha=0.5))
         elif par.plot_type == 'scatter':
-            par.ax.append(fig.circle(indiff_sets[i][0],indiff_sets[i][1], color="#2222aa", size=5, alpha=0.5))
+            par.ax.append(fig.circle(indiff_sets[i][0],indiff_sets[i][1], color="navy", size=5, alpha=0.5))
 
     # c. points
     fig.line([0,10],[0,10],line_dash=[1,10],color="black", line_width=1)
@@ -229,10 +231,10 @@ def cobb_douglas():
     par.beta = 0.50
 
     par.alpha_min = 0.05
-    par.alpha_max = 0.95
+    par.alpha_max = 0.99
 
     par.beta_min = 0.05
-    par.beta_max = 0.95
+    par.beta_max = 0.99
 
     draw(par)
 
@@ -246,10 +248,10 @@ def ces():
     par.beta = 0.85
 
     par.alpha_min = 0.05
-    par.alpha_max = 0.95
+    par.alpha_max = 0.99
 
     par.beta_min = -0.95
-    par.beta_max = 10
+    par.beta_max = 10.01
 
     draw(par)
 

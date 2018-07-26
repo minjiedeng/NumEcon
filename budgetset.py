@@ -65,7 +65,7 @@ def draw_exogenous():
 
     # b. basic figure
     fig =  figure(plot_height=400, plot_width=400, x_range=(0,10), y_range=(0,10))
-    ax = fig.patch(x1,x2, color="#2222aa", line_width=3, alpha=0.5)
+    ax = fig.patch(x1,x2, color="firebrick", line_width=3, alpha=0.5)
     fig.xaxis.axis_label = 'x1'
     fig.yaxis.axis_label = 'x2'
 
@@ -147,7 +147,7 @@ def draw_endowment():
 
     # b. basic figure
     fig =  figure(plot_height=400, plot_width=400, x_range=(0,10), y_range=(0,10))
-    ax = fig.patch(x1,x2, color="#2222aa", line_width=3, alpha=0.5)
+    ax = fig.patch(x1,x2, color="firebrick", line_width=3, alpha=0.5)
     fig.xaxis.axis_label = 'x1'
     fig.yaxis.axis_label = 'x2'
 
@@ -219,7 +219,7 @@ def draw_kink():
 
     # b. basic figure
     fig =  figure(plot_height=400, plot_width=400, x_range=(0,10), y_range=(0,10))
-    ax = fig.patch(x1,x2, color="#2222aa", line_width=3, alpha=0.5)
+    ax = fig.patch(x1,x2, color="firebrick", line_width=3, alpha=0.5)
     fig.xaxis.axis_label = 'x1'
     fig.yaxis.axis_label = 'x2'
 
