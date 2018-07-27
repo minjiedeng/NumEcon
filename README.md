@@ -1,22 +1,20 @@
 *This page is under development* 
 
-**Notice:** *If you are interested in being a teaching assistant for this course contact Jeppe Druedahl ([jeppe.druedahl@gmail.com](jeppe.druedahl@gmail.com))*.
+**Notice:** *Want to be a teaching assistant for this course? Contact Jeppe Druedahl (<jeppe.druedahl@econ.ku.com>)*.
 
 # NumEcon
 
-This it the GitHub page for **Introduction to programming and numerical analysis** 
-
-The course_x folders contain examples of you will be able to produce by completing the course.  
+This it the GitHub repository for **Introduction to programming and numerical analysis**. In addition to the files for the course itself, this repository contains examples for various courses in economcics taught at University of Copenhagen. An example is the folder "course_micro1" containing examples for an intermediate level microeconomics course. 
 
 **Course responsible**: [Jeppe Druedahl](http://web.econ.ku.dk/druedahl/)
 
 # Getting Started
 
-**Simple**: [Launch the interactive version using binded](https://mybinder.org/v2/gh/JeppeDruedahl/NumEcon/master) (no installation required)
+**Simple**: [Launch the interactive version using binder](https://mybinder.org/v2/gh/JeppeDruedahl/NumEcon/master) (no installation required)
 
 **Advanced**: [Install your own Python work space](https://github.com/JeppeDruedahl/NumEcon/wiki/Installation-Notes)
 
-# Course plan
+# Course Plan
 
 1. **Block 1**: Programming with Python using [DataCamp](https://www.datacamp.com/) (week 1-3)
 2. **Block 2**: Data Analysis (week 4-5)
@@ -27,7 +25,7 @@ The course_x folders contain examples of you will be able to produce by completi
 
 This course introduces you to programming and enables you to perform basic data analysis and numerically solve simple economic models. This will e.g. allow you to both visualize solutions, easily test assumptions with respect to functional forms and parameters, and consider more realistic models, which can be solved numerically, but not algebraically.  
 
-The course requires no prior experience with programming.
+*The course requires absolutely no prior experience with programming.*
 
 The first part of the course introduces you to programming using the general purpose Python language. First you will learn to write conditional statements, loops and functions, and to print and plot results. Next, you will learn to test, debug and document your code, and use online communities proactively when writing code. 
 
