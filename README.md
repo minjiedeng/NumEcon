@@ -1,6 +1,6 @@
 *This page is under development.* 
 
-**Notice:** *Want to be a teaching assistant for this course? Contact Jeppe Druedahl (<jeppe.druedahl@econ.ku.com>)*.
+**Notice:** *Want to be a teaching assistant for this course? Contact Jeppe Druedahl (<jeppe.druedahl@econ.ku.dk>)*.
 
 # NumEcon
 
