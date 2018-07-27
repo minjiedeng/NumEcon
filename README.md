@@ -4,7 +4,7 @@
 
 # NumEcon
 
-This is the GitHub repository for the course **Introduction to programming and numerical analysis**. In addition to the files for the course itself, this repository also contains code examples for various other economics courses taught at University of Copenhagen, Department of Economics. For example, the folder "course_micro1" contains examples from an intermediate level microeconomics course (see [utility maximization](https://hub.mybinder.org/user/jeppedruedahl-numecon-bs01pr7h/notebooks/course_micro1/03.%20Utility%20maximization.ipynb)). 
+This is the GitHub repository for the course **Introduction to programming and numerical analysis**. In addition to the files for the course itself, this repository also contains code examples for various other economics courses taught at University of Copenhagen, Department of Economics. For example, the folder "course_micro1" contains examples from an intermediate level microeconomics course. 
 
 **Course responsible**: [Jeppe Druedahl](http://web.econ.ku.dk/druedahl/).
 
