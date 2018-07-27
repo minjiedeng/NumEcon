@@ -4,6 +4,8 @@ This it the GitHub page for **Introduction to programming and numerical analysis
 
 [Launch the interactive version](https://mybinder.org/v2/gh/JeppeDruedahl/NumEcon/master)
 
+[Install Python work space](https://github.com/JeppeDruedahl/NumEcon/wiki/Installation-Notes)
+
 **Course responsible**: [Jeppe Druedahl](http://web.econ.ku.dk/druedahl/)
 
 # Course content
