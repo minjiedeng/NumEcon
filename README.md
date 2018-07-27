@@ -1,14 +1,18 @@
+*This page is under development* 
+
 # NumEcon
 
-This it the GitHub page for **Introduction to programming and numerical analysis** (University of Copenhagen, Department of Economics). The page is under development and currently only contains some examples related to intermediate-level microeconomics.
-
-[Launch the interactive version](https://mybinder.org/v2/gh/JeppeDruedahl/NumEcon/master)
-
-[Install Python work space](https://github.com/JeppeDruedahl/NumEcon/wiki/Installation-Notes)
+This it the GitHub page for **Introduction to programming and numerical analysis** (course description and learning outcomes below). The course_x folders contain examples of you will be able to produce by completing the course.  
 
 **Course responsible**: [Jeppe Druedahl](http://web.econ.ku.dk/druedahl/)
 
-# Course content
+# Getting Started
+
+**Simple**: [Launch the interactive version using binded](https://mybinder.org/v2/gh/JeppeDruedahl/NumEcon/master) (no installation required)
+
+**Advanced**: [Install your own Python work space](https://github.com/JeppeDruedahl/NumEcon/wiki/Installation-Notes)
+
+# Course Description
 
 This course introduces you to programming and enables you to perform basic data analysis and numerically solve simple economic models. This will e.g. allow you to both visualize solutions, easily test assumptions with respect to functional forms and parameters, and consider more realistic models, which can be solved numerically, but not algebraically.  
 
