@@ -1,8 +1,12 @@
 *This page is under development* 
 
+**Notice:** *If you are interested in being a teaching assistant for this course contact Jeppe Druedahl ([jeppe.druedahl@gmail.com](jeppe.druedahl@gmail.com))*.
+
 # NumEcon
 
-This it the GitHub page for **Introduction to programming and numerical analysis** (course description and learning outcomes below). The course_x folders contain examples of you will be able to produce by completing the course.  
+This it the GitHub page for **Introduction to programming and numerical analysis** 
+
+The course_x folders contain examples of you will be able to produce by completing the course.  
 
 **Course responsible**: [Jeppe Druedahl](http://web.econ.ku.dk/druedahl/)
 
@@ -11,6 +15,13 @@ This it the GitHub page for **Introduction to programming and numerical analysis
 **Simple**: [Launch the interactive version using binded](https://mybinder.org/v2/gh/JeppeDruedahl/NumEcon/master) (no installation required)
 
 **Advanced**: [Install your own Python work space](https://github.com/JeppeDruedahl/NumEcon/wiki/Installation-Notes)
+
+# Course plan
+
+1. **Block 1**: Programming with Python using [DataCamp](https://www.datacamp.com/) (week 1-3)
+2. **Block 2**: Data Analysis (week 4-5)
+3. **Block 3**: Numerical Analysis (week 6-8)
+4. **Block 4**: Problem Solving (week 9-14)
 
 # Course Description
 
