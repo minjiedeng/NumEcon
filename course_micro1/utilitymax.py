@@ -293,7 +293,7 @@ def arbitrary(uname,alpha,beta,alpha_bounds,beta_bounds,p1,p2,I,p1_bounds,p2_bou
     par = basic_settings()
     par.plot_type = plot_type
 
-    # a. budget
+    # a. budget set
     par.p1 = p1
     par.p2 = p2
     par.I = I

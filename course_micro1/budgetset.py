@@ -14,7 +14,7 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection, Line3DCollection
 ################
 
 def exogenous(p1=2,p2=1,I=10):
-    
+
     # a. (0,0)
     x1 = [0]
     x2 = [0]
@@ -33,10 +33,10 @@ def exogenous(p1=2,p2=1,I=10):
     
     return x1,x2,slope_xy,slope
 
-def update_exogenous(ax,slope_label,p1=2,p2=1,I=10):  
+def update_exogenous(ax,slope_label,p1=2,p2=1,I=10):
     
     # a. calculate
-    x1, x2,slope_xy,slope = exogenous(p1,p2,I)
+    x1,x2,slope_xy,slope = exogenous(p1,p2,I)
     
     # b. data
     ax.data_source.data['x'] = x1
@@ -73,7 +73,7 @@ def draw_exogenous():
     slope_label = Label(x=slope_xy[0],y=slope_xy[1], text_font_size='10pt', text='slope = -{}'.format(slope))                    
     fig.add_layout(slope_label)
 
-    # d. interatc
+    # d. interact
     show(fig,notebook_handle=True)
     interact_exogenous(ax,slope_label)
 
@@ -160,7 +160,7 @@ def draw_endowment():
     endowment_label = Label(x=e[0],y=e[1], text_font_size='10pt', text='endowment')         
     fig.add_layout(endowment_label)
 
-    # e. interatc
+    # e. interact
     show(fig,notebook_handle=True)
     interact_endowment(ax,slope_label,endowment_point,endowment_label)
 
@@ -195,7 +195,7 @@ def kink(p1_A=1,p1_B=4,p2=1,x1_kink=5,I=10):
 def update_kink(ax,p1_A=1,p1_B=2,p2=1,x1_kink=5,I=10):      
     
     # a. calculate
-    x1, x2 = kink(p1_A,p1_B,p2,x1_kink,I)
+    x1,x2 = kink(p1_A,p1_B,p2,x1_kink,I)
     
     # b. redo basic
     ax.data_source.data['x'] = x1
@@ -240,6 +240,7 @@ def draw_3D(price_vectors,I):
     for i,price_vector in enumerate(price_vectors):
 
         ax = fig.add_subplot(3,3,i+1,projection='3d')
+        
         # a. find edges
         xmax = I/price_vector[0]
         ymax = I/price_vector[1]
