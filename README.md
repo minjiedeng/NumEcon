@@ -1,18 +1,18 @@
-*This page is under development* 
+*This page is under development.* 
 
 **Notice:** *Want to be a teaching assistant for this course? Contact Jeppe Druedahl (<jeppe.druedahl@econ.ku.com>)*.
 
 # NumEcon
 
-This it the GitHub repository for **Introduction to programming and numerical analysis**. In addition to the files for the course itself, this repository contains examples for various courses in economcics taught at University of Copenhagen. An example is the folder "course_micro1" containing examples for an intermediate level microeconomics course. 
+This is the GitHub repository for the course **Introduction to programming and numerical analysis**. In addition to the files for the course itself, this repository also contains code examples for various other economics courses taught at University of Copenhagen, Department of Economics. For example, the folder "course_micro1" contains examples from an intermediate level microeconomics course. 
 
-**Course responsible**: [Jeppe Druedahl](http://web.econ.ku.dk/druedahl/)
+**Course responsible**: [Jeppe Druedahl](http://web.econ.ku.dk/druedahl/).
 
 # Getting Started
 
-**Simple**: [Launch the interactive version using binder](https://mybinder.org/v2/gh/JeppeDruedahl/NumEcon/master) (no installation required)
+**Simple**: [Launch the interactive version using Binder](https://mybinder.org/v2/gh/JeppeDruedahl/NumEcon/master) (no installation required)
 
-**Advanced**: [Install your own Python work space](https://github.com/JeppeDruedahl/NumEcon/wiki/Installation-Notes)
+**Advanced**: [Install your own Python workspace](https://github.com/JeppeDruedahl/NumEcon/wiki/Installation-Notes)
 
 # Course Plan
 
