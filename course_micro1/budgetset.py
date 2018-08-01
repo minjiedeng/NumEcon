@@ -1,11 +1,9 @@
+from types import SimpleNamespace
 import numpy as np
-
-import ipywidgets as widgets
-from bokeh.io import push_notebook, show
-from bokeh.plotting import figure
-from bokeh.models import Range1d, Label
-
+from scipy import optimize
 import matplotlib.pyplot as plt
+import ipywidgets as widgets
+
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection, Line3DCollection
 
@@ -13,7 +11,7 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection, Line3DCollection
 # 1. exogenous #
 ################
 
-def exogenous(p1=2,p2=1,I=10):
+def calc_exogenous(p1,p2,I):
 
     # a. (0,0)
     x1 = [0]
@@ -33,55 +31,46 @@ def exogenous(p1=2,p2=1,I=10):
     
     return x1,x2,slope_xy,slope
 
-def update_exogenous(ax,slope_label,p1=2,p2=1,I=10):
+def draw_figure_exogenous(p1=2,p2=1,I=10):
+        
+    # a. calculations
+    x1,x2,slope_xy,slope = calc_exogenous(p1,p2,I)
+
+    # b. figure
+    fig = plt.figure(frameon=False, figsize=(6,6), dpi=100)
+    ax = fig.add_subplot(1,1,1)
+
+    # c. basic layout
+    ax.grid(True)
+    ax.set_xlim([0,10])
+    ax.set_ylim([0,10])
+    ax.set_xlabel('$x_1$')
+    ax.set_ylabel('$x_2$')
+
+    # d. draw axes
+    draw(ax,x1,x2)
+    draw_slope(ax,slope_xy,slope)
     
-    # a. calculate
-    x1,x2,slope_xy,slope = exogenous(p1,p2,I)
-    
-    # b. data
-    ax.data_source.data['x'] = x1
-    ax.data_source.data['y'] = x2
-    
-    # c. slope_label
-    slope_label.x = slope_xy[0]
-    slope_label.y = slope_xy[1]    
-    slope_label.text = 'slope = -{:3.2f}'.format(slope)
+    plt.show()
 
-    push_notebook()
+def draw(ax,x1,x2):
+    ax.fill(x1,x2, color="firebrick", linewidth=2, alpha=0.5, zorder=1)
 
-def interact_exogenous(ax,slope_label):
+def draw_slope(ax,slope_xy,slope):
+    ax.text(slope_xy[0],slope_xy[1],'slope = -{:3.2f}'.format(slope))
 
-    widgets.interact(update_exogenous,
-                    ax=widgets.fixed(ax),
-                    slope_label=widgets.fixed(slope_label),                    
-                    p1=(0.1,5,0.01), 
-                    p2=(0.1,5,0.1),
-                    I=(0.1,20,0.1))
+def exogenous():
 
-def draw_exogenous():
-
-    # a. calculate
-    x1,x2,slope_xy,slope = exogenous()
-
-    # b. basic figure
-    fig =  figure(plot_height=400, plot_width=400, x_range=(0,10), y_range=(0,10))
-    ax = fig.patch(x1,x2, color="firebrick", line_width=3, alpha=0.5)
-    fig.xaxis.axis_label = 'x1'
-    fig.yaxis.axis_label = 'x2'
-
-    # c. slope
-    slope_label = Label(x=slope_xy[0],y=slope_xy[1], text_font_size='10pt', text='slope = -{}'.format(slope))                    
-    fig.add_layout(slope_label)
-
-    # d. interact
-    show(fig,notebook_handle=True)
-    interact_exogenous(ax,slope_label)
+    widgets.interact(draw_figure_exogenous,        
+                     p1=(0.1,5,0.01), 
+                     p2=(0.1,5,0.1),
+                     I=(0.1,20,0.1))
 
 ################
 # 2. endowment #
 ################
 
-def endowment(p1=2,p2=3,e1=2.5,e2=4): 
+def calc_endowment(p1,p2,e1,e2):
     
     I = p1*e1 + p2*e2
     
@@ -106,69 +95,47 @@ def endowment(p1=2,p2=3,e1=2.5,e2=4):
     
     return x1,x2,slope_xy,slope,e
 
-def update_endowment(ax,slope_label,endowment_point,endowment_label,p1=2,p2=3,e1=2.5,e2=4): 
+def draw_figure_endowment(p1=2,p2=3,e1=2.5,e2=4): 
+        
+    # a. calculations
+    x1,x2,slope_xy,slope,e = calc_endowment(p1,p2,e1,e2)
+
+    # b. figure
+    fig = plt.figure(frameon=False, figsize=(6,6), dpi=100)
+    ax = fig.add_subplot(1,1,1)
+
+    # c. basic layout
+    ax.grid(True)
+    ax.set_xlim([0,10])
+    ax.set_ylim([0,10])
+    ax.set_xlabel('$x_1$')
+    ax.set_ylabel('$x_2$')
+
+    # d. draw axes
+    draw(ax,x1,x2)
+    draw_slope(ax,slope_xy,slope)
+    draw_endowment(ax,e)
+
+    plt.show()
     
-    # a. calculate
-    x1,x2,slope_xy,slope,e = endowment(p1,p2,e1,e2)
-    
-    # b. data
-    ax.data_source.data['x'] = x1
-    ax.data_source.data['y'] = x2
-    
-    # c. slope_label
-    slope_label.x = slope_xy[0]
-    slope_label.y = slope_xy[1]    
-    slope_label.text = 'slope = -{:3.2f}'.format(slope)
+def draw_endowment(ax,e):
+    ax.scatter(e[0],e[1],color='black',zorder=2)
+    ax.text(e[0]*1.025,e[1]*1.025,'endowment')
 
-    # d. endowment
-    endowment_point.data_source.data['x'] = [e[0],e[0]]
-    endowment_point.data_source.data['y'] = [e[1],e[1]]
-    endowment_label.x = e[0]
-    endowment_label.y = e[1]
+def endowment():
 
-    push_notebook()
-
-def interact_endowment(ax,slope_label,endowment_point,endowment_label):
-
-    widgets.interact(update_endowment,
-                    ax=widgets.fixed(ax),
-                    slope_label=widgets.fixed(slope_label),   
-                    endowment_point=widgets.fixed(endowment_point),    
-                    endowment_label=widgets.fixed(endowment_label),                                                            
+    widgets.interact(draw_figure_endowment,
+                    calc=widgets.fixed(calc_endowment),               
                     p1=(0.1,5,0.01), 
                     p2=(0.1,5,0.1),
                     e1=(0.1,5,0.01), 
                     e2=(0.1,5,0.1))
 
-def draw_endowment():
+###########
+# 3. kink #
+###########
 
-    # a. calculate
-    x1,x2,slope_xy,slope,e = endowment()
-
-    # b. basic figure
-    fig =  figure(plot_height=400, plot_width=400, x_range=(0,10), y_range=(0,10))
-    ax = fig.patch(x1,x2, color="firebrick", line_width=3, alpha=0.5)
-    fig.xaxis.axis_label = 'x1'
-    fig.yaxis.axis_label = 'x2'
-
-    # c. slope
-    slope_label = Label(x=slope_xy[0],y=slope_xy[1], text_font_size='10pt', text='slope = -{}'.format(slope))                
-    fig.add_layout(slope_label)
-           
-    # d. endowment
-    endowment_point = fig.circle([e[0],e[0]],[e[1],e[1]], color="black")
-    endowment_label = Label(x=e[0],y=e[1], text_font_size='10pt', text='endowment')         
-    fig.add_layout(endowment_label)
-
-    # e. interact
-    show(fig,notebook_handle=True)
-    interact_endowment(ax,slope_label,endowment_point,endowment_label)
-
-#############
-# 3. kinked #
-#############
-
-def kink(p1_A=1,p1_B=4,p2=1,x1_kink=5,I=10): 
+def calc_kink(p1_A,p1_B,p2,x1_kink,I): 
     
     x1 = [0]
     x2 = [0]
@@ -192,43 +159,37 @@ def kink(p1_A=1,p1_B=4,p2=1,x1_kink=5,I=10):
     
     return x1,x2
 
-def update_kink(ax,p1_A=1,p1_B=2,p2=1,x1_kink=5,I=10):      
-    
-    # a. calculate
-    x1,x2 = kink(p1_A,p1_B,p2,x1_kink,I)
-    
-    # b. redo basic
-    ax.data_source.data['x'] = x1
-    ax.data_source.data['y'] = x2
-    
-    push_notebook()
+def draw_figure_kink(p1_A=1,p1_B=2,p2=1,x1_kink=5,I=10):      
 
-def interact_kink(ax):
+    # a. calculations
+    x1,x2= calc_kink(p1_A,p1_B,p2,x1_kink,I)
 
-    widgets.interact(update_kink,
-                    ax=widgets.fixed(ax),                
+    # b. figure
+    fig = plt.figure(frameon=False, figsize=(6,6), dpi=100)
+    ax = fig.add_subplot(1,1,1)
+
+    # c. basic layout
+    ax.grid(True)
+    ax.set_xlim([0,10])
+    ax.set_ylim([0,10])
+    ax.set_xlabel('$x_1$')
+    ax.set_ylabel('$x_2$')
+
+    # d. draw axes
+    draw(ax,x1,x2)
+    
+    plt.show()
+    
+def kink():
+
+    widgets.interact(draw_figure_kink,
                     p1_A=(0.1,5,0.01), 
                     p1_B=(0.1,5,0.01),                     
                     p2=(0.1,5,0.1),
                     I=(0.1,20,0.1))
 
-def draw_kink():
-
-    # a. calculate
-    x1,x2 = kink()
-
-    # b. basic figure
-    fig =  figure(plot_height=400, plot_width=400, x_range=(0,10), y_range=(0,10))
-    ax = fig.patch(x1,x2, color="firebrick", line_width=3, alpha=0.5)
-    fig.xaxis.axis_label = 'x1'
-    fig.yaxis.axis_label = 'x2'
-
-    # c. interatc
-    show(fig,notebook_handle=True)
-    interact_kink(ax)
-
 #########
-# 3. 3D #
+# 4. 3D #
 #########
 
 def draw_3D(price_vectors,I):

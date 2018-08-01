@@ -1,20 +1,16 @@
 from types import SimpleNamespace
 import numpy as np
 from scipy import optimize
-
+import matplotlib.pyplot as plt
 import ipywidgets as widgets
-from bokeh.io import push_notebook, show
-from bokeh.plotting import figure
-from bokeh.models import Range1d, Label
 
- 
  ########################
  ## 1. indifference set #
  ########################
 
 def func(par):
 
-    eps = 0
+    eps = 0 # hack to help numerical optimizer
     if callable(par.uname):
         u = lambda x1,x2: par.uname(x1,x2,par.alpha,par.beta)
     elif par.uname == 'cobb_douglas':
@@ -131,58 +127,67 @@ def indifference_set(par):
 # 2. draw #
 ###########
 
-def update(par):      
+def draw_figure(par):      
     
-    # a. calculate
-    indiff_sets, u0s = indifference_set(par)
-    
-    # b. update data
-    for i in range(len(indiff_sets)):
-        par.ax[i].data_source.data['x'] = indiff_sets[i][0]
-        par.ax[i].data_source.data['y'] = indiff_sets[i][1]
-        par.labels[i].x = par.x1[i]
-        par.labels[i].y = par.x2[i]
-        par.labels[i].text = 'u = {:3.2f}'.format(u0s[i])
-    
-    push_notebook()
-
-def draw(par):
-
-    # a. calculate
+    # a. calculations
     indiff_sets, u0s = indifference_set(par)
 
-    # b. basic figure
-    fig =  figure(plot_height=400, plot_width=400, x_range=(0,10), y_range=(0,10))
-    fig.xaxis.axis_label = 'x1'
-    fig.yaxis.axis_label = 'x2'
-    
-    par.ax = []
-    for i in range(len(indiff_sets)):
+    # b. figure
+    fig = plt.figure(frameon=False, figsize=(6,6), dpi=100)
+    ax = fig.add_subplot(1,1,1)
+
+    # c. basic layout
+    ax.set_xlim([0,10])
+    ax.set_ylim([0,10])
+    ax.grid(True)
+    ax.set_xlabel('$x_1$')
+    ax.set_ylabel('$x_2$')
+
+    # d. draw axes
+    draw(par,ax,indiff_sets,u0s)
+    draw_45(ax)
+
+    plt.show()
+
+def draw(par,ax,indiff_sets,u0s):
+
+    for indiff_set in indiff_sets:
         if par.plot_type == 'line':
-            par.ax.append(fig.line(indiff_sets[i][0],indiff_sets[i][1], color="navy", line_width=3, alpha=0.5))
+            ax.plot(indiff_set[0],indiff_set[1],linewidth=2,color="navy",zorder=2)
         elif par.plot_type == 'scatter':
-            par.ax.append(fig.circle(indiff_sets[i][0],indiff_sets[i][1], color="navy", size=5, alpha=0.5))
+            ax.scatter(indiff_set[0],indiff_set[1],color="navy",zorder=2)
 
-    # c. points
-    fig.line([0,10],[0,10],line_dash=[1,10],color="black", line_width=1)
-    fig.circle(par.x1,par.x2,color='black')
+    ax.scatter(par.x1,par.x2,color='black',zorder=3)
 
-    par.labels = []
-    for i in range(len(indiff_sets)):
-        par.labels.append(Label(x=par.x1[i],y=par.x2[i],render_mode='css',text_font_size='10pt',text='u = {:3.2f}'.format(u0s[i])))
-        fig.add_layout(par.labels[i])
+    for i,u0 in enumerate(u0s):
+        ax.text(par.x1[i]*1.03,par.x2[i]*1.03,'u = {:3.2f}'.format(u0))
 
-    show(fig,notebook_handle=True)
+def draw_45(ax):
 
-    # d. interact
-    if par.interact_basic:
-        interact_basic(par)
+    ax.plot([0,10],[0,10],'--',color="black",zorder=1,alpha=0.1)
+
+def update(par,alpha,beta):
+
+    par.alpha = alpha
+    par.beta = beta
+
+    draw_figure(par)
+
+def interact(par):
+
+    if par.interact:
+        
+        widgets.interact(update,
+                        par=widgets.fixed(par), 
+                        alpha=widgets.FloatSlider(min=par.alpha_min, max=par.alpha_max, step=par.alpha_step, value=par.alpha),
+                        beta=widgets.FloatSlider(min=par.beta_min, max=par.beta_max, step=par.beta_step, value=par.beta))
+
 
 ############
 # 3. basic #
 ############
 
-def basic_settings():
+def settings():
     
     # a. setup
     par = dict()
@@ -200,29 +205,15 @@ def basic_settings():
     par.plot_type = 'line'
 
     # e. update
-    par.interact_basic = True
+    par.interact = True
     par.alpha_step = 0.05
     par.beta_step = 0.05
 
     return par
 
-def update_basic(par,alpha,beta):
-
-    par.alpha = alpha
-    par.beta = beta
-
-    update(par)
-
-def interact_basic(par):
-
-    widgets.interact(update_basic,
-                    par=widgets.fixed(par), 
-                    alpha=widgets.FloatSlider(min=par.alpha_min, max=par.alpha_max, step=par.alpha_step, value=par.alpha),
-                    beta=widgets.FloatSlider(min=par.beta_min, max=par.beta_max, step=par.beta_step, value=par.beta))
-
 def cobb_douglas():
 
-    par = basic_settings()
+    par = settings()
 
     par.uname = 'cobb_douglas'
 
@@ -235,11 +226,11 @@ def cobb_douglas():
     par.beta_min = 0.05
     par.beta_max = 0.99
 
-    draw(par)
+    interact(par)
 
 def ces():
 
-    par = basic_settings()
+    par = settings()
 
     par.uname = 'ces'
 
@@ -252,11 +243,11 @@ def ces():
     par.beta_min = -0.95
     par.beta_max = 10.01
 
-    draw(par)
+    interact(par)
 
 def perfect_substitutes():
 
-    par = basic_settings()
+    par = settings()
 
     par.uname = 'perfect_substitutes'
 
@@ -269,11 +260,11 @@ def perfect_substitutes():
     par.beta_min = 0.05
     par.beta_max = 3.00
 
-    draw(par)
+    interact(par)
 
 def perfect_complements():
 
-    par = basic_settings()
+    par = settings()
 
     par.uname = 'perfect_complements'
 
@@ -286,11 +277,11 @@ def perfect_complements():
     par.beta_min = 0.05
     par.beta_max = 3.00
 
-    draw(par)
+    interact(par)
 
 def quasi_linear_case_1():
 
-    par = basic_settings()
+    par = settings()
 
     par.uname = 'quasi_linear_case_1'
 
@@ -303,11 +294,11 @@ def quasi_linear_case_1():
     par.beta_min = 0.05
     par.beta_max = 3.00
 
-    draw(par)
+    interact(par)
 
 def quasi_linear_case_2():
 
-    par = basic_settings()
+    par = settings()
 
     par.uname = 'quasi_linear_case_2'
 
@@ -320,11 +311,11 @@ def quasi_linear_case_2():
     par.beta_min = 0.05
     par.beta_max = 3.00
 
-    draw(par)
+    interact(par)
 
 def arbitrary(uname,alpha,beta,alpha_bounds,beta_bounds,plot_type='scatter'):
 
-    par = basic_settings()
+    par = settings()
     par.plot_type = plot_type
 
     par.uname = uname
@@ -338,4 +329,4 @@ def arbitrary(uname,alpha,beta,alpha_bounds,beta_bounds,plot_type='scatter'):
     par.beta_min = beta_bounds[0]
     par.beta_max = beta_bounds[1]
 
-    draw(par)
+    interact(par)
