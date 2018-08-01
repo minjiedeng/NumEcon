@@ -47,9 +47,9 @@ def maximization(par):
 
         # c. save
         x1 = res.x[0]
-        par.x1 = [0.8*x1,x1,1.2*x1]
+        par.x1 = [0.8*x1,x1,1.3*x1]
         x2 = res.x[1]
-        par.x2 = [0.8*x2,x2,1.2*x2]
+        par.x2 = [0.8*x2,x2,1.3*x2]
 
         return par
 
@@ -69,9 +69,9 @@ def draw_figure(par):
     ax = fig.add_subplot(1,1,1)
 
     # c. basic layout
+    ax.grid(True)
     ax.set_xlim([0,10])
     ax.set_ylim([0,10])
-    ax.grid(True)
     ax.set_xlabel('$x_1$')
     ax.set_ylabel('$x_2$')
 
@@ -99,7 +99,7 @@ def settings():
     par.plot_type = 'line'
 
     # e. update
-    par.interact_basic = True
+    par.continuous_update = False
     par.p1_step = 0.05
     par.p2_step = 0.05
     par.I_step = 0.05
@@ -136,11 +136,21 @@ def interact(par):
 
     widgets.interact(update,
                      par=widgets.fixed(par), 
-                     p1=widgets.FloatSlider(min=par.p1_min, max=par.p1_max, step=par.p1_step, value=par.p1),
-                     p2=widgets.FloatSlider(min=par.p2_min, max=par.p2_max, step=par.p2_step, value=par.p2),
-                     I=widgets.FloatSlider(min=par.I_min, max=par.I_max, step=par.I_step, value=par.I),
-                     alpha=widgets.FloatSlider(min=par.alpha_min, max=par.alpha_max, step=par.alpha_step, value=par.alpha),
-                     beta=widgets.FloatSlider(min=par.beta_min, max=par.beta_max, step=par.beta_step, value=par.beta))
+                     p1=widgets.FloatSlider(description='$p_1$',
+                        min=par.p1_min, max=par.p1_max, step=par.p1_step, value=par.p1,
+                        continuous_update=par.continuous_update),
+                     p2=widgets.FloatSlider(description='$p_2$',
+                        min=par.p2_min, max=par.p2_max, step=par.p2_step, value=par.p2,
+                        continuous_update=par.continuous_update),
+                     I=widgets.FloatSlider(description='$I$',
+                        min=par.I_min, max=par.I_max, step=par.I_step, value=par.I,
+                        continuous_update=par.continuous_update),
+                     alpha=widgets.FloatSlider(description='$\\alpha$',
+                        min=par.alpha_min, max=par.alpha_max, step=par.alpha_step, value=par.alpha,
+                        continuous_update=par.continuous_update),
+                     beta=widgets.FloatSlider(description='$\\beta$',
+                        min=par.beta_min, max=par.beta_max, step=par.beta_step, value=par.beta,
+                        continuous_update=par.continuous_update))
 
 def cobb_douglas():
 
@@ -219,7 +229,7 @@ def quasi_linear_case_1():
 
     par.uname = 'quasi_linear_case_1'
 
-    par.alpha = 1.00
+    par.alpha = 3.00
     par.beta = 1.00
 
     par.alpha_min = 0.05
@@ -236,7 +246,7 @@ def quasi_linear_case_2():
 
     par.uname = 'quasi_linear_case_2'
 
-    par.alpha = 1.00
+    par.alpha = 3.00
     par.beta = 1.00
 
     par.alpha_min = 0.05
@@ -247,7 +257,9 @@ def quasi_linear_case_2():
 
     interact(par)
 
-def arbitrary(uname,alpha,beta,alpha_bounds,beta_bounds,p1,p2,I,p1_bounds,p2_bounds,I_bounds,plot_type='scatter',monotone=True):
+def arbitrary(uname,alpha,beta,alpha_bounds,beta_bounds,
+            p1,p2,I,p1_bounds,p2_bounds,I_bounds,
+            plot_type='scatter',monotone=True):
 
     par = settings()
     par.plot_type = plot_type

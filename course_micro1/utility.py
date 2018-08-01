@@ -137,9 +137,9 @@ def draw_figure(par):
     ax = fig.add_subplot(1,1,1)
 
     # c. basic layout
+    ax.grid(True)
     ax.set_xlim([0,10])
     ax.set_ylim([0,10])
-    ax.grid(True)
     ax.set_xlabel('$x_1$')
     ax.set_ylabel('$x_2$')
 
@@ -153,9 +153,9 @@ def draw(par,ax,indiff_sets,u0s):
 
     for indiff_set in indiff_sets:
         if par.plot_type == 'line':
-            ax.plot(indiff_set[0],indiff_set[1],linewidth=2,color="navy",zorder=2)
+            ax.plot(indiff_set[0],indiff_set[1],linewidth=2,color="navy",alpha=0.5,zorder=2)
         elif par.plot_type == 'scatter':
-            ax.scatter(indiff_set[0],indiff_set[1],color="navy",zorder=2)
+            ax.scatter(indiff_set[0],indiff_set[1],color="navy",alpha=0.5,zorder=2)
 
     ax.scatter(par.x1,par.x2,color='black',zorder=3)
 
@@ -163,7 +163,7 @@ def draw(par,ax,indiff_sets,u0s):
         ax.text(par.x1[i]*1.03,par.x2[i]*1.03,'u = {:3.2f}'.format(u0))
 
 def draw_45(ax):
-
+    
     ax.plot([0,10],[0,10],'--',color="black",zorder=1,alpha=0.1)
 
 def update(par,alpha,beta):
@@ -175,12 +175,14 @@ def update(par,alpha,beta):
 
 def interact(par):
 
-    if par.interact:
-        
-        widgets.interact(update,
-                        par=widgets.fixed(par), 
-                        alpha=widgets.FloatSlider(min=par.alpha_min, max=par.alpha_max, step=par.alpha_step, value=par.alpha),
-                        beta=widgets.FloatSlider(min=par.beta_min, max=par.beta_max, step=par.beta_step, value=par.beta))
+    widgets.interact(update,
+                    par=widgets.fixed(par), 
+                    alpha=widgets.FloatSlider(description='$\\alpha$',
+                        min=par.alpha_min, max=par.alpha_max, step=par.alpha_step, value=par.alpha, 
+                        continuous_update=par.continuous_update),
+                    beta=widgets.FloatSlider(description='$\\beta$',
+                        min=par.beta_min, max=par.beta_max, step=par.beta_step, value=par.beta,
+                        continuous_update=par.continuous_update))
 
 
 ############
@@ -205,7 +207,7 @@ def settings():
     par.plot_type = 'line'
 
     # e. update
-    par.interact = True
+    par.continuous_update = False
     par.alpha_step = 0.05
     par.beta_step = 0.05
 
