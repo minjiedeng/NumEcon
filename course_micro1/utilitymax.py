@@ -99,7 +99,7 @@ def settings():
     par.plot_type = 'line'
 
     # e. update
-    par.continuous_update = False
+    par.continuous_update = True
     par.p1_step = 0.05
     par.p2_step = 0.05
     par.I_step = 0.05

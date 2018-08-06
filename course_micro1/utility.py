@@ -207,7 +207,7 @@ def settings():
     par.plot_type = 'line'
 
     # e. update
-    par.continuous_update = False
+    par.continuous_update = True
     par.alpha_step = 0.05
     par.beta_step = 0.05
 

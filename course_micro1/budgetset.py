@@ -59,12 +59,12 @@ def draw(ax,x1,x2):
 def draw_slope(ax,slope_xy,slope):
     ax.text(slope_xy[0],slope_xy[1],'slope = -{:3.2f}'.format(slope))
 
-def exogenous(continuous_update=False):
+def exogenous(continuous_update=True):
 
     widgets.interact(draw_figure_exogenous,        
                      p1=widgets.FloatSlider(description='$p_1$',min=0.1, max=5, step=0.05, value=2, continuous_update=continuous_update), 
                      p2=widgets.FloatSlider(description='$p_2$',min=0.1, max=5, step=0.05, value=1, continuous_update=continuous_update), 
-                     I=widgets.FloatSlider(description='$I$',min=0.1, max=20, step=0.10, value=10, continuous_update=continuous_update))
+                     I=widgets.FloatSlider(description='$I$',min=0.1, max=20, step=0.10, value=5, continuous_update=continuous_update))
 
 ################
 # 2. endowment #
@@ -98,7 +98,7 @@ def draw_endowment(ax,e1,e2):
     ax.scatter(e1,e2,color='black',zorder=2)
     ax.text(e1*1.03,e2*1.03,'endowment')
 
-def endowment(continuous_update=False):
+def endowment(continuous_update=True):
 
     widgets.interact(draw_figure_endowment,             
                      p1=widgets.FloatSlider(description='$p_1$',
@@ -163,7 +163,7 @@ def draw_figure_kink(p1_A=1,p1_B=2,p2=1,x1_kink=5,I=10):
     
     plt.show()
     
-def kink(continuous_update=False):
+def kink(continuous_update=True):
 
     widgets.interact(draw_figure_kink,
                     p1_A=widgets.FloatSlider(description='$p_1^A$',min=0.1, max=5, step=0.05, value=1, continuous_update=continuous_update), 
