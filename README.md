@@ -1,3 +1,5 @@
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/JeppeDruedahl/NumEcon/master)
+
 *This page is under development.* 
 
 **Notice:** *Want to be a teaching assistant for this course? Contact Jeppe Druedahl (<jeppe.druedahl@econ.ku.dk>)*.
