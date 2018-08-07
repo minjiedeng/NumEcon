@@ -37,11 +37,11 @@ def draw_figure_exogenous(p1=2,p2=1,I=10):
     x1,x2,slope_xy,slope_val = calc_exogenous(p1,p2,I)
 
     # b. figure
-    fig = plt.figure(frameon=False, figsize=(6,6), dpi=100)
+    fig = plt.figure(frameon=False, figsize=(6,6),dpi=100)
     ax = fig.add_subplot(1,1,1)
 
     # c. basic layout
-    ax.grid(True)
+    ax.grid(ls='--',lw=1)
     ax.set_xlim([0,10])
     ax.set_ylim([0,10])
     ax.set_xlabel('$x_1$')
@@ -77,11 +77,11 @@ def draw_figure_endowment(p1,p2,e1,e2):
     x1,x2,slope_xy,slope_val = calc_exogenous(p1,p2,I)
 
     # b. figure
-    fig = plt.figure(frameon=False, figsize=(6,6), dpi=100)
+    fig = plt.figure(frameon=False, figsize=(6,6),dpi=100)
     ax = fig.add_subplot(1,1,1)
 
     # c. basic layout
-    ax.grid(True)
+    ax.grid(ls='--',lw=1)
     ax.set_xlim([0,10])
     ax.set_ylim([0,10])
     ax.set_xlabel('$x_1$')
@@ -148,11 +148,11 @@ def draw_figure_kink(p1_A=1,p1_B=2,p2=1,x1_kink=5,I=10):
     x1,x2= calc_kink(p1_A,p1_B,p2,x1_kink,I)
 
     # b. figure
-    fig = plt.figure(frameon=False, figsize=(6,6), dpi=100)
+    fig = plt.figure(frameon=False, figsize=(6,6))
     ax = fig.add_subplot(1,1,1)
 
     # c. basic layout
-    ax.grid(True)
+    ax.grid(ls='--',lw=1)
     ax.set_xlim([0,10])
     ax.set_ylim([0,10])
     ax.set_xlabel('$x_1$')

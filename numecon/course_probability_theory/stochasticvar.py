@@ -17,7 +17,7 @@ def dice_density(continuous_update=True,Nmax=50000):
         N=widgets.IntSlider(description='rolls',min=50, max=Nmax, step=50, value=50, continuous_update=continuous_update),
         Nmax=widgets.fixed(Nmax),
         density=widgets.fixed(1)
-        )
+    )
 
 def dice_(N,Nmax,density):
 
@@ -27,7 +27,7 @@ def dice_(N,Nmax,density):
     dice_sum = die_1 + die_2
 
     # b. figure
-    fig = plt.figure(figsize=(6,6))
+    fig = plt.figure(figsize=(8,6))
     ax_hist = fig.add_subplot(1,1,1)
 
     # c. histogram

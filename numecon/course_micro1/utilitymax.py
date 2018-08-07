@@ -4,8 +4,8 @@ from scipy import optimize
 import matplotlib.pyplot as plt
 import ipywidgets as widgets
 
-import utility
-import budgetset
+from . import  utility
+from . import budgetset
 
 ####################
 ## 1. maximization #
@@ -65,11 +65,11 @@ def draw_figure(par):
     x1s,x2s, _slope_xy,_slope = budgetset.calc_exogenous(par.p1,par.p2,par.I)
 
     # b. figure
-    fig = plt.figure(frameon=False, figsize=(6,6), dpi=100)
+    fig = plt.figure(figsize=(6,6),dpi=100)
     ax = fig.add_subplot(1,1,1)
 
     # c. basic layout
-    ax.grid(True)
+    ax.grid(ls='--',lw=1)
     ax.set_xlim([0,10])
     ax.set_ylim([0,10])
     ax.set_xlabel('$x_1$')

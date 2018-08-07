@@ -133,11 +133,11 @@ def draw_figure(par):
     indiff_sets, u0s = indifference_set(par)
 
     # b. figure
-    fig = plt.figure(frameon=False, figsize=(6,6), dpi=100)
+    fig = plt.figure(frameon=False, figsize=(6,6),dpi=100)
     ax = fig.add_subplot(1,1,1)
 
     # c. basic layout
-    ax.grid(True)
+    ax.grid(ls='--',lw=1)
     ax.set_xlim([0,10])
     ax.set_ylim([0,10])
     ax.set_xlabel('$x_1$')

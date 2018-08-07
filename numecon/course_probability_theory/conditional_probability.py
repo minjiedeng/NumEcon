@@ -18,6 +18,16 @@ def bivariate_normal(continuous_update=True):
                     rho=widgets.FloatSlider(description='$\\rho$',min=-0.99, max=0.99, step=0.05, value=0.75, continuous_update=continuous_update),
                     y=widgets.FloatSlider(description='$X_2$',min=-3, max=3, step=0.05, value=-1.7, continuous_update=continuous_update))
 
+def bivariate_normal_standard(continuous_update=True):
+
+    widgets.interact(bivariate_normal_,
+                    mu1=widgets.fixed(0),
+                    mu2=widgets.fixed(0),
+                    sigma1=widgets.fixed(1),
+                    sigma2=widgets.fixed(1),
+                    rho=widgets.FloatSlider(description='$\\rho$',min=-0.99, max=0.99, step=0.05, value=0.75, continuous_update=continuous_update),
+                    y=widgets.FloatSlider(description='$X_2$',min=-3, max=3, step=0.05, value=-1.7, continuous_update=continuous_update))
+
 def bivariate_normal_(mu1,mu2,sigma1,sigma2,rho,y):
 
     # a. grids
@@ -48,7 +58,7 @@ def bivariate_normal_(mu1,mu2,sigma1,sigma2,rho,y):
     Z_cond = F.pdf(pos_cond)     
 
     # d. join distribution
-    fig = plt.figure(figsize=(12,6))
+    fig = plt.figure(figsize=(16,6))
     ax = fig.add_subplot(1,2,1,projection='3d')
 
     # surface
@@ -62,7 +72,7 @@ def bivariate_normal_(mu1,mu2,sigma1,sigma2,rho,y):
     ax.plot(X_vec,np.repeat(y,N_X),np.mean(Z_cond,axis=0),color='black',lw=2)
 
     # details
-    ax.set_title('joint density of $X_1$ and $X_2$',pad=20)    
+    ax.set_title('joint density of $X_1$ and $X_2$',pad=25)    
 
     ax.set_xlabel('$X_1$')
     ax.invert_xaxis()
