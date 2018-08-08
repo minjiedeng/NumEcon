@@ -1,0 +1,14 @@
+channels:
+  - damianavila82
+  - conda-forge
+dependencies:
+  - python
+  - requests
+  - numpy
+  - pandas
+  - scipy
+  - matplotlib
+  - ipywidgets
+  - rise
+  - pip:
+    - jupyter-contrib-nbextensions
