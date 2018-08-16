@@ -10,32 +10,57 @@ from . import consumer
 # figure  #
 ###########
 
-def _figure(par,p1,p2,I,alpha,beta):
+def _figure(par,steps,p1_old,p1_new,I,alpha,beta):
 
-    par.p1 = p1
-    par.p2 = p2
     par.I = I
     par.alpha = alpha
     par.beta = beta
 
     # a. calculations
+    par.p1 = p1_old
     x1,x2,u_max = consumer.maximization(par)
-    u_alt = [par.u(0.8*x1,0.8*x2,par.alpha,par.beta),par.u(1.3*x1,1.3*x2,par.alpha,par.beta)]
+
+    par.p1 = p1_new
+    h1, h2 = consumer.costminimization(par,u_max)
+    x1_new,x2_new,u_max_new = consumer.maximization(par)
 
     # b. figure
     fig = plt.figure(figsize=(6,6),dpi=100)
     ax = fig.add_subplot(1,1,1)
 
     # c. plots
-    consumer.budgetline(ax,p1,p2,I)
-    
+    consumer.budgetline(ax,p1_old,par.p2,I,ls='--',alpha=0.50,label='original')
+    if steps > 1:
+        consumer.budgetline(ax,p1_new,par.p2,I,label='final')
+    if steps > 2:
+        consumer.budgetline(ax,p1_new,par.p2,p1_new*h1+par.p2*h2,ls=':',alpha=0.50,label='compensated')
+
+    # A
     ax.plot(x1,x2,'ro',color='black')
-    ax.text(x1*1.03,x2*1.03,f'$u_{{max}} = {u_max:5.2f}$')
+    ax.text(x1*1.03,x2*1.03,'A')
+    consumer.indifference_curve(ax,u_max,par,ls='--',label='original')
 
-    consumer.indifference_curve(ax,u_max,par)
-    [consumer.indifference_curve(ax,u,par,ls='--') for  u in u_alt]
+    # B
+    if steps > 2:
+        ax.plot(h1,h2,'ro',color='black')
+        ax.text(h1*1.03,h2*1.03,'B')
+    
+    # C
+    if steps > 1:
+        ax.plot(x1_new,x2_new,'ro',color='black')
+        ax.text(x1_new*1.03,x2_new*1.03,'C')
+        consumer.indifference_curve(ax,u_max_new,par,label='final')
 
+    if steps > 2:
+        line1 = f'subtitution: $B-A$ = ({h1-x1:5.2f},{h2-x2:5.2f})\n'
+        line2 = f'     income: $C-B$ = ({x1_new-h1:5.2f},{x2_new-h2:5.2f})'
+        ax.text(0.5*par.x1_max,0.9*par.x2_max,line1+line2)
+    
     # d. basic layout
+    legend = ax.legend(loc='right', shadow=True)
+    frame = legend.get_frame()
+    frame.set_facecolor('0.90')
+
     ax.grid(ls='--',lw=1)
     ax.set_xlim([0,par.x1_max])
     ax.set_ylim([0,par.x2_max])
@@ -48,8 +73,9 @@ def figure(par):
 
     widgets.interact(_figure,
         par=widgets.fixed(par), 
-        p1=widgets.FloatSlider(description='$p_1$',min=par.p1_min, max=par.p1_max, step=par.p1_step, value=par.p1),
-        p2=widgets.FloatSlider(description='$p_2$',min=par.p2_min, max=par.p2_max, step=par.p2_step, value=par.p2),
+        steps=widgets.IntSlider(description='steps',min=1, max=3, step=1, value=1),
+        p1_old=widgets.FloatSlider(description='$p_1$',min=par.p1_min, max=par.p1_max, step=par.p1_step, value=par.p1),
+        p1_new=widgets.FloatSlider(description='$p_1^{\\prime}$',min=par.p1_min, max=par.p1_max, step=par.p1_step, value=par.p1_new),
         I=widgets.FloatSlider(description='$I$',min=par.I_min, max=par.I_max, step=par.I_step, value=par.I),
         alpha=widgets.FloatSlider(description='$\\alpha$',min=par.alpha_min, max=par.alpha_max, step=par.alpha_step, value=par.alpha),
         beta=widgets.FloatSlider(description='$\\beta$',min=par.beta_min, max=par.beta_max, step=par.beta_step, value=par.beta))
@@ -70,7 +96,7 @@ def settings():
     # c. indifference curves
     par.N = 100 # number of points when calculating
 
-    # c. utility
+    # d. utility
     par.u = None
     par.g = None
     par.g_inv = None
@@ -78,12 +104,13 @@ def settings():
     par.alpha = 1.00
     par.beta = 1.00
 
-    # d. budgetset
+    # e. budgetset
     par.p1 = 1
+    par.p1_new = 3
     par.p2 = 1
     par.I = 8
 
-    # e. slider
+    # f. slider
     par.alpha_min = 0.05
     par.alpha_max = 4.00
     par.alpha_step = 0.05
@@ -96,15 +123,11 @@ def settings():
     par.p1_max = 4.00    
     par.p1_step = 0.05
 
-    par.p2_min = 0.05
-    par.p2_max = 4.00    
-    par.p2_step = 0.05
-
     par.I_min = 0.5
     par.I_max = 20
     par.I_step = 0.05
 
-    # e. technical
+    # g. technical
     par.eps = 1e-8
 
     return par
@@ -136,16 +159,6 @@ def ces():
 
     figure(par)
 
-def perfect_substitutes():
-
-    par = settings()
-    consumer.utility_functions(par,'perfect_substitutes')
-
-    par.p1 = 1.5
-    par.I = 5
-    
-    figure(par)
-
 def perfect_complements():
 
     par = settings()
@@ -169,75 +182,5 @@ def quasi_linear_sqrt():
     
     par.alpha = 3.00
     par.beta = 1.00
-
-    figure(par)    
-
-def concave():
-
-    par = settings()
-    consumer.utility_functions(par,'concave')
-    
-    par.p2 = 2
-
-    figure(par) 
-
-def quasi_quasi_linear():
-
-    par = settings()
-    consumer.utility_functions(par,'quasi_quasi_linear')
-
-    figure(par) 
-
-def saturated():
-
-    par = settings()
-    consumer.utility_functions(par,'saturated')
-
-    par.alpha = 5.00
-    par.beta = 5.00
-
-    par.alpha_min = 0.0
-    par.alpha_max = 8
-
-    par.beta_min = 0.0
-    par.beta_max = 8
-
-    par.monotone = False
-
-    figure(par) 
-
-def arbitrary(u,alpha,beta,alpha_bounds,beta_bounds,
-        p1,p2,I,p1_bounds,p2_bounds,I_bounds,
-        monotone=True):
-
-    par = settings()
-
-    # a. budget set
-    par.p1 = p1
-    par.p2 = p2
-    par.I = I
-
-    par.p1_min = p1_bounds[0]
-    par.p1_max = p1_bounds[1]
-
-    par.p2_min = p2_bounds[0]
-    par.p2_max = p2_bounds[1]
-
-    par.I_min = I_bounds[0]
-    par.I_max = I_bounds[1]
-
-    # b. utility
-    par.u = u
-    par.uname = ''
-    par.monotone = monotone
-
-    par.alpha = alpha
-    par.beta = beta
-
-    par.alpha_min = alpha_bounds[0]
-    par.alpha_max = alpha_bounds[1]
-
-    par.beta_min = beta_bounds[0]
-    par.beta_max = beta_bounds[1]
 
     figure(par)    

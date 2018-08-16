@@ -4,239 +4,107 @@ from scipy import optimize
 import matplotlib.pyplot as plt
 import ipywidgets as widgets
 
- ########################
- ## 1. indifference set #
- ########################
+from . import consumer
 
-def func(par):
+##########
+# figure #
+##########
 
-    eps = 0 # hack to help numerical optimizer
-    if callable(par.uname):
-        u = lambda x1,x2: par.uname(x1,x2,par.alpha,par.beta)
-    elif par.uname == 'cobb_douglas':
-        u = lambda x1,x2: x1**par.alpha*x2**par.beta
-    elif par.uname == 'ces':
-        if par.beta == 0:
-            u = lambda x1,x2: x1**par.alpha*x2**(1-par.alpha)
-        else:
-            u = lambda x1,x2: (par.alpha*x1**(-par.beta)+(1-par.alpha)*x2**(-par.beta))**(-1.0/par.beta)
-            eps = 1e-8
-    elif par.uname == 'perfect_substitutes':
-        u = lambda x1,x2: par.alpha*x1+par.beta*x2
-    elif par.uname == 'perfect_complements':
-        u = lambda x1,x2: np.fmin(par.alpha*x1,par.beta*x2) + 1e-8*(par.alpha*x1-par.beta*x2)**2 # hack to help numerical optimizer
-    elif par.uname == 'quasi_linear_case_1':
-        u = lambda x1,x2: par.alpha*np.log(x1)+par.beta*x2
-        eps = 1e-8
-    elif par.uname == 'quasi_linear_case_2':
-        u = lambda x1,x2: par.alpha*np.sqrt(x1)+par.beta*x2
-        eps = 1e-8
+def _figure(par,alpha,beta):
+
+    par.alpha = alpha
+    par.beta = beta 
     
-    return u,eps
-
-def indifference_set(par):
-
-    indiff_sets = []
-    u0s = []
-    for x1,x2 in zip(par.x1,par.x2):
-        
-        # a. utility function
-        u,eps = func(par)
-
-        # b. baseline
-        u0 = u(x1,x2)
-        u0s.append(u0)
-
-        x1s = []    
-        x2s = []
-
-        # c. special points
-        if par.uname == 'perfect_complements':
-            if par.alpha < par.beta:
-                x1s.append(x1)
-                x2s.append(par.alpha*x1/par.beta)
-                x1s.append(x1+0.01)
-                x2s.append(par.alpha*x1/par.beta)
-            else:
-                x1s.append(par.beta*x2/par.alpha)
-                x2s.append(x2)
-                x1s.append(par.beta*x2/par.alpha+0.01)
-                x2s.append(x2)
-
-        # d. fixed x1
-        x_vec = np.linspace(eps,par.upper,par.N)
-        for x1_now in x_vec:
-
-            def target_for_x2(x2):
-                return u(x1_now,np.fmax(x2,eps))-u0
-
-            x_A,_infodict_A,ier_A,_mesg_A = optimize.fsolve(target_for_x2, 0, full_output=True)
-            x_B,_infodict_B,ier_B,_mesg_B = optimize.fsolve(target_for_x2, par.upper, full_output=True)        
-
-            if ier_A == 1:
-                x1s.append(x1_now)
-                x2s.append(x_A[0])
-            else:
-                x1s.append(np.nan)
-                x2s.append(np.nan)
-
-            if ier_B == 1 and np.abs(x_A[0]-x_B[0]) > 0.01:
-                x1s.append(x1_now)
-                x2s.append(x_B[0])
-            else:
-                x1s.append(np.nan)
-                x2s.append(np.nan)
-
-        # e. fixed x2
-        x_vec = np.linspace(eps,par.upper,par.N)
-        for x2_now in x_vec:
-
-            def target_for_x1(x1):
-                return u(np.fmax(x1,eps),x2_now)-u0
-
-            x_A,_infodict_A,ier_A,_mesg_A = optimize.fsolve(target_for_x1, 0, full_output=True)
-            x_B,_infodict_B,ier_B,_mesg_B = optimize.fsolve(target_for_x1, par.upper, full_output=True)
-            
-            if ier_A == 1:
-                x1s.append(x_A[0])
-                x2s.append(x2_now)
-            else:
-                x1s.append(np.nan)
-                x2s.append(np.nan)
-
-            if ier_B == 1 and np.abs(x_A[0]-x_B[0]) > 0.01:
-                x1s.append(x_B[0])
-                x2s.append(x2_now)
-            else:
-                x1s.append(np.nan)
-                x2s.append(np.nan)
-
-        # f. sort
-        x1s = np.array(x1s)
-        x2s = np.array(x2s)
-        I = np.argsort(x1s)
-        x1s = x1s[I]
-        x2s = x2s[I]
-
-        # g. append
-        indiff_sets.append([x1s,x2s])
-
-    return indiff_sets, u0s
-
-###########
-# 2. draw #
-###########
-
-def draw_figure(par):      
-    
-    # a. calculations
-    indiff_sets, u0s = indifference_set(par)
-
-    # b. figure
+    # a. figure
     fig = plt.figure(frameon=False, figsize=(6,6),dpi=100)
     ax = fig.add_subplot(1,1,1)
 
-    # c. basic layout
+    # b. 45 degrees 
+    ax.plot([0,10],[0,10],'--',color="black",zorder=1,alpha=0.1)
+
+    # c. indifference curves
+    x1s = par.x1s
+    x2s = par.x2s
+    us = [par.u(x1,x2,par.alpha,par.beta) for x1,x2 in zip(x1s,x2s)]
+    [ax.plot(x1,x2,'ro',color='black') for x1,x2 in zip(x1s,x2s)]
+    [ax.text(x1*1.03,x2*1.03,f'u = {u:5.2f}') for  x1,x2,u in zip(x1s,x2s,us)]
+    [consumer.indifference_curve(ax,u,par) for  u in us]
+    
+    # d. extra stuff
+    consumer.monotonicity(ax,par,x1s[1],x2s[1])
+    consumer.convex_combination(ax,par,x1s[1],x2s[1],us[1])
+
+    # e. basic layout
     ax.grid(ls='--',lw=1)
     ax.set_xlim([0,10])
     ax.set_ylim([0,10])
     ax.set_xlabel('$x_1$')
     ax.set_ylabel('$x_2$')
 
-    # d. draw axes
-    draw(par,ax,indiff_sets,u0s)
-    draw_45(ax)
-
     plt.show()
 
-def draw(par,ax,indiff_sets,u0s):
+def figure(par):
 
-    for indiff_set in indiff_sets:
-        if par.plot_type == 'line':
-            ax.plot(indiff_set[0],indiff_set[1],linewidth=2,color="navy",alpha=0.5,zorder=2)
-        elif par.plot_type == 'scatter':
-            ax.scatter(indiff_set[0],indiff_set[1],color="navy",alpha=0.5,zorder=2)
-
-    ax.scatter(par.x1,par.x2,color='black',zorder=3)
-
-    for i,u0 in enumerate(u0s):
-        ax.text(par.x1[i]*1.03,par.x2[i]*1.03,'u = {:3.2f}'.format(u0))
-
-def draw_45(ax):
-    
-    ax.plot([0,10],[0,10],'--',color="black",zorder=1,alpha=0.1)
-
-def update(par,alpha,beta):
-
-    par.alpha = alpha
-    par.beta = beta
-
-    draw_figure(par)
-
-def interact(par):
-
-    widgets.interact(update,
-                    par=widgets.fixed(par), 
-                    alpha=widgets.FloatSlider(description='$\\alpha$',
-                        min=par.alpha_min, max=par.alpha_max, step=par.alpha_step, value=par.alpha, 
-                        continuous_update=par.continuous_update),
-                    beta=widgets.FloatSlider(description='$\\beta$',
-                        min=par.beta_min, max=par.beta_max, step=par.beta_step, value=par.beta,
-                        continuous_update=par.continuous_update))
-
+    widgets.interact(_figure,
+        par=widgets.fixed(par), 
+        alpha=widgets.FloatSlider(description='$\\alpha$',min=par.alpha_min,max=par.alpha_max,step=par.alpha_step,value=par.alpha),
+        beta=widgets.FloatSlider(description='$\\beta$',min=par.beta_min,max=par.beta_max,step=par.beta_step,value=par.beta))
 
 ############
-# 3. basic #
+# settings #
 ############
 
 def settings():
     
     # a. setup
-    par = dict()
-    par = SimpleNamespace(**par)
+    par = SimpleNamespace()
 
-    #. b. points
-    par.x1 = [2,3,4]
-    par.x2 = [2,3,4]
+    # b. layout
+    par.x1_max = 10
+    par.x2_max = 10
 
-    # c. curves
-    par.upper = 10
-    par.N = 50
+    # c. indifference curves
+    par.x1s = [2,3,4] # x1 starting points
+    par.x2s = [2,3,4] # x2 starting points
+    par.N = 100 # number of points when calculating
 
-    # d. figure
-    par.plot_type = 'line'
+    # d. utility
+    par.u = None
+    par.g = None
+    par.g_inv = None
+    par.alpha = 1.00
+    par.beta = 1.00
 
-    # e. update
-    par.continuous_update = True
+    # e. slider
+    par.alpha_min = 0.05
+    par.alpha_max = 4.00
     par.alpha_step = 0.05
+
+    par.beta_min = 0.05
+    par.beta_max = 4.00
     par.beta_step = 0.05
 
+    # f. technical
+    par.eps = 1e-8
+
     return par
+
+#########
+# cases #
+#########
 
 def cobb_douglas():
 
     par = settings()
-
-    par.uname = 'cobb_douglas'
-
-    par.alpha = 0.50
-    par.beta = 0.50
-
-    par.alpha_min = 0.05
-    par.alpha_max = 0.99
-
-    par.beta_min = 0.05
-    par.beta_max = 0.99
-
-    interact(par)
+    consumer.utility_functions(par,'cobb_douglas')
+    figure(par)
 
 def ces():
 
     par = settings()
+    consumer.utility_functions(par,'ces')
 
-    par.uname = 'ces'
-
-    par.alpha = 0.50
+    par.alpha = 0.65
     par.beta = 0.85
 
     par.alpha_min = 0.05
@@ -245,82 +113,67 @@ def ces():
     par.beta_min = -0.95
     par.beta_max = 10.01
 
-    interact(par)
+    figure(par)
 
 def perfect_substitutes():
 
     par = settings()
-
-    par.uname = 'perfect_substitutes'
-
-    par.alpha = 1.00
-    par.beta = 1.00
-
-    par.alpha_min = 0.05
-    par.alpha_max = 3.00
-
-    par.beta_min = 0.05
-    par.beta_max = 3.00
-
-    interact(par)
+    consumer.utility_functions(par,'perfect_substitutes')
+    figure(par)
 
 def perfect_complements():
 
     par = settings()
+    consumer.utility_functions(par,'leontief')
+    figure(par)
 
-    par.uname = 'perfect_complements'
+def quasi_linear_log():
 
-    par.alpha = 1.00
-    par.beta = 1.00
+    par = settings()
+    consumer.utility_functions(par,'quasi_linear',v=np.log)
+    figure(par)
 
-    par.alpha_min = 0.05
-    par.alpha_max = 3.00
+def quasi_linear_sqrt():
 
-    par.beta_min = 0.05
-    par.beta_max = 3.00
+    par = settings()
+    consumer.utility_functions(par,'quasi_linear',np.sqrt)
+    figure(par)    
 
-    interact(par)
+def concave():
 
-def quasi_linear_case_1():
+    par = settings()
+    consumer.utility_functions(par,'concave')
+    figure(par) 
+
+def quasi_quasi_linear():
+
+    par = settings()
+    consumer.utility_functions(par,'quasi_quasi_linear')
+    figure(par) 
+
+def saturated():
 
     par = settings()
 
-    par.uname = 'quasi_linear_case_1'
+    consumer.utility_functions(par,'saturated')
 
-    par.alpha = 1.00
-    par.beta = 1.00
+    par.alpha = 5.00
+    par.beta = 5.00
 
-    par.alpha_min = 0.05
-    par.alpha_max = 3.00
+    par.alpha_min = 0.0
+    par.alpha_max = 8
 
-    par.beta_min = 0.05
-    par.beta_max = 3.00
+    par.beta_min = 0.0
+    par.beta_max = 8
 
-    interact(par)
+    figure(par) 
 
-def quasi_linear_case_2():
-
-    par = settings()
-
-    par.uname = 'quasi_linear_case_2'
-
-    par.alpha = 1.00
-    par.beta = 1.00
-
-    par.alpha_min = 0.05
-    par.alpha_max = 3.00
-
-    par.beta_min = 0.05
-    par.beta_max = 3.00
-
-    interact(par)
-
-def arbitrary(uname,alpha,beta,alpha_bounds,beta_bounds,plot_type='scatter'):
+def arbitrary(u,alpha,beta,alpha_bounds,beta_bounds,plot_type='scatter'):
 
     par = settings()
-    par.plot_type = plot_type
 
-    par.uname = uname
+    par.u = u
+    par.uname = ''
 
     par.alpha = alpha
     par.beta = beta
@@ -331,4 +184,4 @@ def arbitrary(uname,alpha,beta,alpha_bounds,beta_bounds,plot_type='scatter'):
     par.beta_min = beta_bounds[0]
     par.beta_max = beta_bounds[1]
 
-    interact(par)
+    figure(par)
