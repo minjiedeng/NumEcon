@@ -5,6 +5,7 @@ import ipywidgets as widgets
 
 def dice(Nmax=30):
 
+    widgets.interact_manual.opts['manual_name'] = 'Roll!'
     widgets.interact_manual(dice_,
         N=widgets.IntSlider(description='rolls',min=1, max=Nmax*5, step=1, value=1),
         Nmax=widgets.fixed(Nmax),
@@ -12,6 +13,7 @@ def dice(Nmax=30):
         )
 
 def dice_density(continuous_update=True,Nmax=50000):
+
 
     widgets.interact(dice_,
         N=widgets.IntSlider(description='rolls',min=50, max=Nmax, step=50, value=50, continuous_update=continuous_update),

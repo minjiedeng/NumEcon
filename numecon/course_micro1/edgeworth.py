@@ -48,6 +48,10 @@ def _figure(par,p1,omega_1,omega_2,alpha_A,beta_A,alpha_B,beta_B):
     ax.text((1-x1_B)*1.03,(1-x2_B)*1.03,'B')
     consumer.indifference_curve(ax,u_max_B,par,inv=True)
 
+    line1 = f'excess demand of good 1: {x1_A+x1_B-1:6.2f}\n'
+    line2 = f'excess demand of good 2: {x2_A+x2_B-1:6.2f}\n'
+    ax.text(0.05,0.01,line1+line2)
+
     # dc. basic layout
     ax.grid(ls='--',lw=1)
     ax.set_xlim([0,1])
@@ -69,7 +73,7 @@ def figure(par):
 
     widgets.interact(_figure,
         par=widgets.fixed(par), 
-        p1=widgets.FloatSlider(description='$p_1$',min=par.p1_min, max=par.p1_max, step=par.p1_step, value=par.p1),
+        p1=widgets.BoundedFloatText(description='$p_1$',min=par.p1_min, max=par.p1_max, step=par.p1_step, value=par.p1),
         omega_1=widgets.FloatSlider(description='$\\omega_1$',min=0.05, max=0.99, step=0.05, value=par.omega_1),
         omega_2=widgets.FloatSlider(description='$\\omega_2$',min=0.05, max=0.99, step=0.05, value=par.omega_2),
         alpha_A=widgets.FloatSlider(description='$\\alpha^A$',min=par.alpha_min, max=par.alpha_max, step=par.alpha_step, value=par.alpha_A),
