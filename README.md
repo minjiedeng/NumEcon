@@ -18,10 +18,7 @@ This is the GitHub repository for the course **Introduction to programming and n
 
 # Course Plan
 
-1. **Block 1**: Programming with Python using [DataCamp](https://www.datacamp.com/) (week 1-3)
-2. **Block 2**: Data Analysis (week 4-5)
-3. **Block 3**: Numerical Analysis (week 6-8)
-4. **Block 4**: Problem Solving (week 9-14)
+See [here](https://github.com/JeppeDruedahl/NumEcon/wiki/Course-Plan)
 
 # Course Description
 
