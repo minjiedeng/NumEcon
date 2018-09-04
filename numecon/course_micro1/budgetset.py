@@ -68,8 +68,8 @@ def endowment():
     widgets.interact(_endowment,             
         p1=widgets.FloatSlider(description='$p_1$',min=0.1, max=5, step=0.05, value=2), 
         p2=widgets.FloatSlider(description='$p_2$',min=0.1, max=5, step=0.05, value=1),
-        e1=widgets.FloatSlider(description='$e_1$',min=0.1, max=5, step=0.05, value=3), 
-        e2=widgets.FloatSlider(description='$e_2$',min=0.1, max=5, step=0.05, value=4))
+        e1=widgets.FloatSlider(description='$e_1$',min=0.0, max=5, step=0.05, value=3), 
+        e2=widgets.FloatSlider(description='$e_2$',min=0.0, max=5, step=0.05, value=4))
 
 ###########
 # 3. kink #
