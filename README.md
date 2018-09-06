@@ -28,9 +28,9 @@ The course requires no prior experience with programming.
 
 The first part of the course introduces you to programming using the general-purpose Python language. You will learn to write conditional statements, loops, functions, and classes, and to print results and produce static and interactive plots. You will learn to solve simple numerical optimization problems, and draw random number and run simulations. You will learn to test, debug and document your code, and use online communities proactively when writing code. 
 
-The second part of the course give you a brief introduction on how to import data from offline and online sources, structure it, and produce central descriptive statistics. 
+The second part of the course give you a brief introduction on how to import data from offline and online sources, structure it, and produce central descriptive statistics. You will learn to estimate simple statistical models on your data.
 
-The third part of the course introduce you to the concept of a numerical algorithm. You will learn how to write simple searching, sorting and optimization algorithms. You will learn to solve linear algebra problems, solve non-linear equations, find fixed points, and solve complicated numerical optimization problems.
+The third part of the course introduce you to the concept of a numerical algorithm. You will learn how to write simple searching, sorting and optimization algorithms. You will learn to solve linear algebra problems, solve non-linear equations numerically and symbolically, find fixed points, and solve complicated numerical optimization problems relying on function approximation.
 
 You will get hands-on experience with applying the above techniques to solve well-known microeconomic and macroeconomic problems from the core bachelor courses. Specifically, you will work with both a small data analysis project, and a larger model analysis project based on a well-known economic model.
 
@@ -57,6 +57,7 @@ While the course only focus on programming in Python, you will also be equipped 
 * Import and export of data from and to csv, excel and online databases
 * Perform simple descriptive analysis  of numerical data
 * Use numerical equation solvers
+*	Use symbolic equation solvers
 * Use numerical optimizers
 * Formulate numerical algorithms from mathematical problems
 
