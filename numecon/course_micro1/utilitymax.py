@@ -10,7 +10,7 @@ from . import consumer
 # figure  #
 ###########
 
-def _figure(par,p1,p2,I,alpha,beta):
+def _figure(par,p1,p2,I,alpha,beta,gamma):
 
     par.p1 = p1
     par.p2 = p2
@@ -18,9 +18,16 @@ def _figure(par,p1,p2,I,alpha,beta):
     par.alpha = alpha
     par.beta = beta
 
+    def xs_from_gamma(gamma):
+        x1 = I/p1*gamma
+        x2 = (I-p1*x1)/p2
+        return x1,x2
+    x1,x2 = xs_from_gamma(gamma)
+
     # a. calculations
-    x1,x2,u_max = consumer.maximization(par)
-    u_alt = [par.u(0.8*x1,0.8*x2,par.alpha,par.beta),par.u(1.3*x1,1.3*x2,par.alpha,par.beta)]
+    x1_max,x2_max,u_max = consumer.maximization(par)
+
+    u_alt = [par.u(x1,x2,alpha,beta),par.u(x1_max*1.2,x2_max*1.2,alpha,beta)]
 
     # b. figure
     fig = plt.figure(figsize=(6,6),dpi=100)
@@ -29,8 +36,11 @@ def _figure(par,p1,p2,I,alpha,beta):
     # c. plots
     consumer.budgetline(ax,p1,p2,I)
     
-    ax.plot(x1,x2,'ro',color='black')
-    ax.text(x1*1.03,x2*1.03,f'$u_{{max}} = {u_max:5.2f}$')
+    ax.plot(x1_max,x2_max,'ro',color='black')
+    ax.text(x1_max*1.03,x2_max*1.03,f'$u^{{max}} = {u_max:5.2f}$')
+
+    ax.plot(x1,x2,'o',color='firebrick')
+    ax.text(x1*1.03,x2*1.03,f'$u^{{\gamma}} = {par.u(x1,x2,alpha,beta):5.2f}$')
 
     consumer.indifference_curve(ax,u_max,par)
     [consumer.indifference_curve(ax,u,par,ls='--') for  u in u_alt]
@@ -52,7 +62,8 @@ def figure(par):
         p2=widgets.FloatSlider(description='$p_2$',min=par.p2_min, max=par.p2_max, step=par.p2_step, value=par.p2),
         I=widgets.FloatSlider(description='$I$',min=par.I_min, max=par.I_max, step=par.I_step, value=par.I),
         alpha=widgets.FloatSlider(description='$\\alpha$',min=par.alpha_min, max=par.alpha_max, step=par.alpha_step, value=par.alpha),
-        beta=widgets.FloatSlider(description='$\\beta$',min=par.beta_min, max=par.beta_max, step=par.beta_step, value=par.beta))
+        beta=widgets.FloatSlider(description='$\\beta$',min=par.beta_min, max=par.beta_max, step=par.beta_step, value=par.beta),
+        gamma=widgets.FloatSlider(description='$\\gamma$',min=0.01, max=0.99, step=0.01, value=0.25))
 
 ############
 # settings #
