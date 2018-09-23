@@ -36,7 +36,7 @@ You will get hands-on experience with applying the above techniques to solve wel
 
 While the course only focus on programming in Python, you will also be equipped to start learning other programming languages (such as MATLAB, R, Julia or even C/C++) on your own.
 
-# Learning Outcome
+# Learning Outcomes
 
 **Knowledge:**
 * Describe the differences between data types (e.g.  strings, booleans, integers and floats)
