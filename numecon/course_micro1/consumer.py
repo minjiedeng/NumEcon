@@ -16,10 +16,15 @@ def budgetset(ax,p1,p2,I,**kwargs):
 
 def budgetline(ax,p1,p2,I,**kwargs):
     
+    if 'color' not in kwargs:
+        kwargs['color'] = 'black'
+    if 'lw' not in kwargs:
+        kwargs['lw'] = 2        
+
     x = [0,I/p1]
     y = [I/p2,0]
 
-    ax.plot(x,y,color='black',lw=2,**kwargs)
+    ax.plot(x,y,**kwargs)
 
 def budgetline_slope(ax,p1,p2,I,scalex=1.03,scaley=1.03,**kwargs):
 
@@ -195,6 +200,11 @@ def find_indifference_curve(u,par):
 
 def indifference_curve(ax,u,par,inv=False,**kwargs):
 
+    if 'color' not in kwargs:
+        kwargs['color'] = 'navy'
+    if 'lw' not in kwargs:
+        kwargs['lw'] = 2
+        
     if par.uname == 'leontief':
 
         corner_x1 = u/par.alpha
@@ -204,17 +214,17 @@ def indifference_curve(ax,u,par,inv=False,**kwargs):
         x2 = [par.x2_max,corner_x2,corner_x2]
 
         if inv: 
-            ax.plot(1-np.array(x1),1-np.array(x2),lw=2,color='navy',**kwargs) 
+            ax.plot(1-np.array(x1),1-np.array(x2),**kwargs) 
         else:
-            ax.plot(x1,x2,lw=2,color='navy',**kwargs) 
+            ax.plot(x1,x2,**kwargs) 
                 
     elif par.uname == 'saturated':
 
         radius = np.sqrt(-u)
         if inv:
-            circle = plt.Circle((1-par.alpha,1-par.beta),radius,fill=False,lw=2,color='navy',**kwargs)
+            circle = plt.Circle((1-par.alpha,1-par.beta),radius,fill=False,**kwargs)
         else:
-            circle = plt.Circle((par.alpha,par.beta),radius,fill=False,lw=2,color='navy',**kwargs)
+            circle = plt.Circle((par.alpha,par.beta),radius,fill=False,**kwargs)
         ax.add_artist(circle)
 
     else:
@@ -222,9 +232,9 @@ def indifference_curve(ax,u,par,inv=False,**kwargs):
         x1,x2 = find_indifference_curve(u,par)
 
         if inv:
-            ax.plot(1-x1,1-x2,lw=2,color='navy',**kwargs)                
+            ax.plot(1-x1,1-x2,**kwargs)                
         else:
-            ax.plot(x1,x2,lw=2,color='navy',**kwargs)                
+            ax.plot(x1,x2,**kwargs)                
     
 def monotonicity(ax,par,x1,x2,text='north-east'):
 
@@ -314,7 +324,8 @@ def maximization(par):
 
         # a. target
         def target_2d(x): 
-            return -par.u(x[0],x[1],par.alpha,par.beta) + 1000*(np.fmax(par.p1*x[0]+par.p2*x[1]-par.I,0))
+            excess_spending = par.p1*x[0]+par.p2*x[1]-par.I
+            return -par.u(x[0],x[1],par.alpha,par.beta) + 1000*np.max([excess_spending,-x[0],-x[1],0])
             
         # b. solve
         x0 = np.array([par.I/par.p1,par.I/par.p2])/2
@@ -334,7 +345,8 @@ def costminimization(par,u):
         x1 = x[0]
         x2 = x[1]
         udiff = (par.u(x1,x2,par.alpha,par.beta)-u)**2
-        return par.p1*x1+par.p2*x2 + 1000*udiff
+        
+        return par.p1*x1+par.p2*x2 + 1000*udiff + 1000*np.max([-x[0],-x[1],0])
         
     # b. solve
     x0 = np.array([par.I/par.p1,par.I/par.p2])/2
