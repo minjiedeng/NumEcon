@@ -1,0 +1,1530 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass beamer
+\begin_preamble
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usepackage{appendixnumberbeamer}
+
+\usetheme[progressbar=frametitle,block=fill]{metropolis}
+
+% margin
+\setbeamersize{text margin right=1.5cm}
+
+% colors
+\colorlet{DarkRed}{red!70!black}
+\setbeamercolor{normal text}{fg=black}
+\setbeamercolor{alerted text}{fg=DarkRed}
+\setbeamercolor{progress bar}{fg=DarkRed}
+\setbeamercolor{button}{bg=DarkRed}
+
+% width of seperators
+\makeatletter
+\setlength{\metropolis@titleseparator@linewidth}{1pt}
+\setlength{\metropolis@progressonsectionpage@linewidth}{1pt}
+\setlength{\metropolis@progressinheadfoot@linewidth}{1pt}
+\makeatother
+
+% new alert block
+\newlength\origleftmargini
+\setlength\origleftmargini\leftmargini
+\setbeamertemplate{itemize/enumerate body begin}{\setlength{\leftmargini}{4mm}}
+\let\oldalertblock\alertblock
+\let\oldendalertblock\endalertblock
+\def\alertblock{\begingroup \setbeamertemplate{itemize/enumerate body begin}{\setlength{\leftmargini}{\origleftmargini}} \oldalertblock}
+\def\endalertblock{\oldendalertblock \endgroup}
+\setbeamertemplate{mini frame}{}
+\setbeamertemplate{mini frame in current section}{}
+\setbeamertemplate{mini frame in current subsection}{}
+\setbeamercolor{section in head/foot}{fg=normal text.bg, bg=structure.fg}
+\setbeamercolor{subsection in head/foot}{fg=normal text.bg, bg=structure.fg}
+
+% footer
+\makeatletter
+\setbeamertemplate{footline}{%
+    \begin{beamercolorbox}[colsep=1.5pt]{upper separation line head}
+    \end{beamercolorbox}
+    \begin{beamercolorbox}{section in head/foot}
+      \vskip1pt\insertsectionnavigationhorizontal{\paperwidth}{}{\hskip0pt plus1filll \insertframenumber{} / \inserttotalframenumber \hskip2pt}\vskip3pt% 
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[colsep=1.5pt]{lower separation line head}
+    \end{beamercolorbox}
+}
+\makeatother
+
+% toc
+\setbeamertemplate{section in toc}{\hspace*{1em}\inserttocsectionnumber.~\inserttocsection\par}
+\setbeamertemplate{subsection in toc}{\hspace*{2em}\inserttocsectionnumber.\inserttocsubsectionnumber.~\inserttocsubsection\par}
+\end_preamble
+\options t,10pt
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman "lmodern" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures false
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 10
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation skip
+\defskip smallskip
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+title{Solving the Ramsey Model
+\backslash
+vspace{-2mm}}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+subtitle{NumEcon} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+author{Jeppe Druedahl}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+date{Autumn 2018}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+setbeamertemplate{footline}{} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+maketitle
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[overlay, remember picture]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[above left=0cm and 0.0cm of current page.south east] 
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\backslash
+includegraphics[width=4cm]{KUSAMFtitlelrcorner.pdf}};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[overlay, remember picture]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[below left=0.5cm and .8cm of current page.north east] 
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\backslash
+includegraphics[width=1.5cm]{KUSAMFlogo.pdf}};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+addtocounter{framenumber}{-1}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{frame}<beamer>
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+frametitle{Plan}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+tableofcontents[]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{frame}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Introduction
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Subject: 
+\series default
+Solve the Ramsey model numerically (using Python)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+NumEcon module
+\series default
+ (under construction)
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Source files: 
+\series default
+
+\begin_inset CommandInset href
+LatexCommand href
+name "GitHub.com"
+target "https://github.com/JeppeDruedahl/NumEcon"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Interactive version: 
+\series default
+
+\begin_inset CommandInset href
+LatexCommand href
+name "MyBinder.org"
+target "https://mybinder.org/v2/gh/JeppeDruedahl/NumEcon/master"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Today:
+\series default
+ 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Notebook:
+\series default
+ course_macro3
+\backslash
+Ramsey.ipynb
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Code:
+\series default
+ numecon
+\backslash
+course_macro3
+\backslash
+Ramsey.py
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Python introduction:
+\series default
+ misc
+\backslash
+Python in 15 Minutes.ipynb
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Model
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Households 
+\series default
+(of measure 
+\begin_inset Formula $1$
+\end_inset
+
+):
+\series bold
+ 
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+Own capital, supply labor and consume.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Firms: 
+\series default
+Rent capital and hire labor to produce.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Variables:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Capital: 
+\begin_inset Formula $K_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Labor supply: 
+\begin_inset Formula $L_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Output: 
+\begin_inset Formula $Y_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Consumption: 
+\begin_inset Formula $C_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Per worker:
+\series default
+ 
+\begin_inset Formula $k_{t}\equiv K_{t}/L_{t}$
+\end_inset
+
+, 
+\begin_inset Formula $y_{t}\equiv Y_{t}/L_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $c_{t}\equiv C_{t}/L_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Prices
+\series default
+ are taken as given by households and firms
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $r_{t}$
+\end_inset
+
+,
+\series bold
+ 
+\series default
+rental rate on capital
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $w_{t}$
+\end_inset
+
+, wage rate
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Net return factor on capital:
+\series default
+ 
+\begin_inset Formula $R_{t}\equiv1+r_{t}-\delta$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+where 
+\begin_inset Formula $\delta>0$
+\end_inset
+
+ is the depreciation rate
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Households I
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Inealastically supply labour
+\series default
+, 
+\begin_inset Formula $L_{t}=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Maximize the discounted sum of utility from consumption 
+\series default
+
+\begin_inset Formula 
+\[
+\max_{\{c_{t}\}_{t=0}^{\infty}}\sum_{t=0}^{\infty}\beta^{t}u(c_{t}),\,\,\,u^{\prime}>0,u^{\prime\prime}<0
+\]
+
+\end_inset
+
+
+\begin_inset VSpace -2mm
+\end_inset
+
+under the constraints
+\begin_inset VSpace -1mm
+\end_inset
+
+
+\begin_inset Formula 
+\begin{gather*}
+k_{t+1}=R_{t}k_{t}+w_{t}-c_{t}\\
+\lim_{t\to\infty}\mathcal{R}_{t}^{-1}k_{t}\ge0\\
+\mathcal{R}_{t}=\prod_{j=0}^{t}R_{j}\\
+k_{0}\text{ givet}
+\end{gather*}
+
+\end_inset
+
+and given time paths for 
+\begin_inset Formula $\{R_{t}\}_{t=0}^{\infty}$
+\end_inset
+
+ and 
+\begin_inset Formula $\{w_{t}\}_{t=0}^{\infty}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Households II
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Optimal behavior 
+\series default
+imply the Euler-equation 
+\begin_inset Formula $\frac{u^{\prime}(c_{t})}{u^{\prime}(c_{t+1})}=\beta R_{t+1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+CRRA utility:
+\series default
+ 
+\begin_inset Formula $u(c_{t})=\frac{c_{t}^{1-\sigma}}{1-\sigma},\sigma>0$
+\end_inset
+
+ 
+\begin_inset VSpace 1mm
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Euler-equation
+\begin_inset Formula 
+\[
+c_{t+1}=\left(\beta R_{t\text{+1}}\right)^{1/\sigma}c_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Consumption function
+\series default
+
+\begin_inset VSpace 1mm
+\end_inset
+
+
+\series bold
+
+\begin_inset Formula 
+\begin{eqnarray*}
+c_{0} & = & \frac{1}{\theta}[R_{0}a_{0}+h_{0}]\\
+ &  & h_{0}\equiv\sum_{t=0}^{\infty}\mathcal{R}_{t}^{-1}w_{t}\\
+ &  & \theta\equiv\sum_{t=0}^{\infty}(\beta^{t}\mathcal{R}_{t})^{1/\sigma}\mathcal{R}_{t}^{-1}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Firms
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Production function:
+\series default
+ 
+\begin_inset Formula $Y_{t}=F(K_{t},L_{t})=f(k_{t})L_{t}$
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+where 
+\begin_inset Formula $F$
+\end_inset
+
+ is neoclassical
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Maximize profits
+\begin_inset Formula 
+\[
+\max_{K_{t},L_{t}}f(k_{t})L_{t}-r_{t}K_{t}-w_{t}L_{t}=
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The 
+\series bold
+first order conditions 
+\series default
+imply
+\begin_inset Formula 
+\begin{eqnarray*}
+f^{\prime}(k_{t}) & = & r_{t}\\
+f(k_{t})-f^{\prime}(k_{t})k_{t} & = & w_{t}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Low-of-motion
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The 
+\series bold
+law-of-motion
+\series default
+,
+\series bold
+ 
+\begin_inset Formula $(k_{t+1},c_{t+1})=\Gamma(k_{t},c_{t})$
+\end_inset
+
+
+\series default
+, is given by the solution to the equation system
+\begin_inset Formula 
+\begin{eqnarray*}
+k_{t+1} & = & k_{t}(1-\delta)+f(k_{t})-c_{t}
+\end{eqnarray*}
+
+\end_inset
+
+
+\begin_inset VSpace -6mm
+\end_inset
+
+
+\begin_inset Formula 
+\begin{eqnarray*}
+\frac{u^{\prime}(c_{t})}{u^{\prime}(c_{t+1})} & = & \beta(1+f^{\prime}(k_{t+1})-\delta)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Curvers (loci) 
+\series default
+where 
+\begin_inset Formula $k$
+\end_inset
+
+ or 
+\begin_inset Formula $c$
+\end_inset
+
+ is constant
+\begin_inset VSpace 1mm
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $k$
+\end_inset
+
+: 
+\begin_inset Formula $\{(k,c)\,|\,c=f(k)-\delta k\}$
+\end_inset
+
+ 
+\begin_inset VSpace 1mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $c$
+\end_inset
+
+: 
+\begin_inset Formula $\{(k,c)\,|\,1=\left(\beta(1+f^{\prime}(k)-\delta)\right)^{1/\sigma}\}$
+\end_inset
+
+ 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Solution algorithm
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Find steady state
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+In 
+\series bold
+steady state
+\series default
+:
+\begin_inset VSpace 1mm
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+capital, 
+\begin_inset Formula $k^{\ast}$
+\end_inset
+
+, solves
+\begin_inset Formula 
+\[
+\beta(1+f^{\prime}(k^{\ast})-\delta)=1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+consumption, 
+\begin_inset Formula $c^{\ast}$
+\end_inset
+
+, then equals
+\begin_inset Formula 
+\[
+c^{\ast}=f(k^{\ast})-\delta k^{\ast}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Cobb-Douglas:
+\begin_inset Formula 
+\[
+k^{\ast}=\left(\frac{\frac{1}{\beta}-1+\delta}{\alpha}\right)^{\frac{1}{\alpha-1}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Find initial consumption, 
+\begin_inset Formula $c_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset VSpace -1mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Choose 
+\series bold
+initial capital
+\series default
+ 
+\begin_inset Formula $k_{0}>0$
+\end_inset
+
+ and 
+\series bold
+tolerance level
+\series default
+ 
+\begin_inset Formula $\tau>0$
+\end_inset
+
+
+\begin_inset VSpace 1mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Set 
+\series bold
+initial bounds
+\series default
+ as 
+\begin_inset Formula $(\underline{c}_{0},\overline{c}_{0})=$
+\end_inset
+
+ 
+\begin_inset Formula $\begin{cases}
+(0,f(k_{0})-\delta k_{0}) & \text{if }k_{0}<k^{\ast}\\
+(f(k_{0})-\delta k_{0},f(k_{0})) & \text{if }k_{0}\geq k^{\ast}
+\end{cases}$
+\end_inset
+
+
+\begin_inset VSpace 1mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Set 
+\begin_inset Formula $c_{0}=(\underline{c}_{0}+\overline{c}_{0})/2$
+\end_inset
+
+ and 
+\begin_inset Formula $c=c_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $k=k_{0}$
+\end_inset
+
+
+\begin_inset VSpace 1mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Update 
+\series default
+using the law-of-motion: 
+\begin_inset Formula $(k,c)=\Gamma(k,c)$
+\end_inset
+
+ 
+\begin_inset VSpace 1mm
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[a.]
+\end_layout
+
+\end_inset
+
+If 
+\begin_inset Formula $\sqrt{(c^{\ast}-c)^{2}+(k^{\ast}-k)^{2}}<\tau$
+\end_inset
+
+ 
+\series bold
+stop
+\series default
+
+\begin_inset VSpace 1mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[b.]
+\end_layout
+
+\end_inset
+
+If 
+\begin_inset Formula $k_{0}\leq k^{\ast}$
+\end_inset
+
+ then
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[]
+\end_layout
+
+\end_inset
+
+If 
+\begin_inset Formula $c\leq c^{\ast}\land k\leq k^{\ast}$
+\end_inset
+
+ go to step 4
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[]
+\end_layout
+
+\end_inset
+
+If 
+\begin_inset Formula $k>k^{\ast}$
+\end_inset
+
+ set 
+\begin_inset Formula $\underline{c}_{0}=c_{0}$
+\end_inset
+
+ and go to step 3
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[]
+\end_layout
+
+\end_inset
+
+If 
+\begin_inset Formula $c>c^{\ast}$
+\end_inset
+
+ set 
+\begin_inset Formula $\overline{c}_{0}=c_{0}$
+\end_inset
+
+ and go to step 3
+\begin_inset VSpace 1mm
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[c.]
+\end_layout
+
+\end_inset
+
+If 
+\begin_inset Formula $k_{0}>k^{\ast}$
+\end_inset
+
+ then
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[]
+\end_layout
+
+\end_inset
+
+If 
+\begin_inset Formula $c\geq c^{\ast}\land k\geq k^{\ast}$
+\end_inset
+
+ go to step 4
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[]
+\end_layout
+
+\end_inset
+
+If 
+\begin_inset Formula $k<k^{\ast}$
+\end_inset
+
+ set 
+\begin_inset Formula $\overline{c}_{0}=c_{0}$
+\end_inset
+
+ and go to step 3
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[]
+\end_layout
+
+\end_inset
+
+If 
+\begin_inset Formula $c<c^{\ast}$
+\end_inset
+
+ set 
+\begin_inset Formula $\underline{c}_{0}=c_{0}$
+\end_inset
+
+ and go to step 3
+\end_layout
+
+\end_deeper
+\end_deeper
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Example
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Calibration
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $f(k_{t})=k_{t}^{\alpha}$
+\end_inset
+
+ (Cobb-Douglas)
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\beta=0.98$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\sigma=2$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\alpha=1/3$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\delta=0.10$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $k_{0}=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\tau=10^{-6}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Phase diagram
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename phase_diagram.pdf
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Time profiles
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename time_profiles.pdf
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Diverging paths
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename diverging_paths.pdf
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
