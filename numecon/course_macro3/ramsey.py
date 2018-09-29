@@ -20,8 +20,10 @@ class RamseyModel():
 
         # a. model parameters  
         self.beta = 0.97 # discount factor
+        
         self.utility_function = 'crra'
         self.sigma = 2 # crra coefficient
+
         self.production_function = 'cobb_douglas'
         self.alpha = 1/3 # cobb-dogulas coefficient
         self.delta = 0.10 # depreciation rate
@@ -154,7 +156,7 @@ class RamseyModel():
             c_high = self.c_func(k0,k0)
         else:
             c_low = self.c_func(k0,k0)
-            c_high = k0**self.alpha
+            c_high = self.f(k0) + k0*(1-self.delta)
         
         # for plotting
         self.c0_path = np.nan*np.ones(self.saddlepath_max_iter)
@@ -168,6 +170,7 @@ class RamseyModel():
 
             # i. initilize
             if t == 0: 
+
                 c0 = (c_low + c_high)/2                
                 k = k0
                 c = c0
@@ -333,6 +336,10 @@ class RamseyModel():
     def plot_sim_time(self,ax,varname,**kwargs):
         ax.plot(self.sim[varname],'o',MarkerSize=2,**kwargs)
 
+#####################
+# interactive plots #
+#####################
+
 def interactive_phase_diagram():
 
    widgets.interact(phase_diagram,        
@@ -345,20 +352,21 @@ def interactive_phase_diagram():
 
 def phase_diagram(beta,sigma,delta,alpha,k0):
     
+    # a. solve model
     model = RamseyModel(beta=beta,sigma=sigma,delta=delta,alpha=alpha,k0=k0,do_print=False)
     model.find_steady_state()
     model.find_c0_on_saddlepath()
 
-    # a. setup figure
+    # b. setup figure
     fig = plt.figure(figsize=(12,4),dpi=100)
     
-    # b. phase diagram
+    # c. phase diagram
     ax = fig.add_subplot(1,2,1) 
     model.plot_loci(ax)
     model.simulate()
     model.plot_kc_path(ax)
 
-    # c. time profile
+    # d. time profile
     ax = fig.add_subplot(1,2,2) 
     model.plot_sim_time(ax,'k')
     ax.plot([0,100],[model.k_ss,model.k_ss],'--',color='black')

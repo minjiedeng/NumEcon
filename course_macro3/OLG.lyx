@@ -141,7 +141,7 @@ status open
 
 
 \backslash
-title{Solving the Ramsey Model
+title{Solving the OLG Model
 \backslash
 vspace{-2mm}}
 \end_layout
@@ -223,7 +223,7 @@ node[above left=0cm and 0.0cm of current page.south east]
 
 {
 \backslash
-includegraphics[width=4cm]{KUSAMFtitlelrcorner.pdf}};
+includegraphics[width=4cm]{figs/KUSAMFtitlelrcorner.pdf}};
 \end_layout
 
 \begin_layout Plain Layout
@@ -255,7 +255,39 @@ node[below left=0.5cm and .8cm of current page.north east]
 
 {
 \backslash
-includegraphics[width=1.5cm]{KUSAMFlogo.pdf}};
+includegraphics[width=1.5cm]{figs/KUSAMFlogo.pdf}};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[overlay, remember picture]
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+node[below right=0.5cm and .8cm of current page.north west] 
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\backslash
+includegraphics[width=1.5cm]{figs/CEBI.png}};
 \end_layout
 
 \begin_layout Plain Layout
@@ -352,7 +384,7 @@ Introduction
 \series bold
 Subject: 
 \series default
-Solve the Ramsey model numerically (using Python)
+Solve the OLG model numerically (using Python)
 \end_layout
 
 \begin_layout Itemize
@@ -415,7 +447,7 @@ Notebook:
 \series default
  course_macro3
 \backslash
-Ramsey.ipynb
+OLG.ipynb
 \end_layout
 
 \begin_layout Enumerate
@@ -427,7 +459,7 @@ Code:
 \backslash
 course_macro3
 \backslash
-Ramsey.py
+OLG.py
 \end_layout
 
 \end_deeper
@@ -470,13 +502,13 @@ Model
 \begin_layout Itemize
 
 \series bold
-Households 
+Households
 \series default
-(of measure 
-\begin_inset Formula $1$
+: 
+\begin_inset Formula $L_{t}$
 \end_inset
 
-):
+ born each each period, life-span of 2 periods
 \series bold
  
 \series default
@@ -484,7 +516,7 @@ Households
 \begin_inset Newline newline
 \end_inset
 
-Own capital, supply labor and consume.
+Own capital (as old), supply labor (as young) and consume
 \end_layout
 
 \begin_layout Itemize
@@ -492,7 +524,7 @@ Own capital, supply labor and consume.
 \series bold
 Firms: 
 \series default
-Rent capital and hire labor to produce.
+Rent capital and hire labor to produce
 \end_layout
 
 \begin_layout Itemize
@@ -597,7 +629,7 @@ Net return factor on capital:
 \end_inset
 
 where 
-\begin_inset Formula $\delta>0$
+\begin_inset Formula $\delta\in[0,1]$
 \end_inset
 
  is the depreciation rate
@@ -625,59 +657,47 @@ Households I
 \end_layout
 
 \begin_deeper
-\begin_layout Itemize
-
-\series bold
-Inealastically supply labour
-\series default
-, 
-\begin_inset Formula $L_{t}=1$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Maximize the discounted sum of utility from consumption 
-\series default
-
+\begin_layout Standard
 \begin_inset Formula 
 \[
-\max_{\{c_{t}\}_{t=0}^{\infty}}\sum_{t=0}^{\infty}\beta^{t}u(c_{t})
+\max_{c_{1t},c_{2t+1}}u(c_{1t})+\beta u(c_{2t+1})
 \]
 
 \end_inset
 
-
-\begin_inset VSpace -2mm
-\end_inset
-
-under the constraints
-\begin_inset VSpace -1mm
-\end_inset
-
-
+under the constraint
 \begin_inset Formula 
-\begin{gather*}
-k_{t+1}=R_{t}k_{t}+w_{t}-c_{t}\\
-\lim_{t\to\infty}\mathcal{R}_{t}^{-1}k_{t}\ge0\\
-\mathcal{R}_{t}=\prod_{j=0}^{t}R_{j}\\
-k_{0}\text{ givet}
-\end{gather*}
+\[
+c_{1t}+R_{t+1}^{-1}c_{2t+1}=w_{t}
+\]
 
 \end_inset
 
-and given time paths for 
-\begin_inset Formula $\{R_{t}\}_{t=0}^{\infty}$
+where 
+\begin_inset Formula $u^{\prime}>0$
+\end_inset
+
+, 
+\begin_inset Formula $u^{\prime\prime}<0$
+\end_inset
+
+, 
+\begin_inset Formula $\lim_{c\rightarrow0}u^{\prime}=\infty$
 \end_inset
 
  and 
-\begin_inset Formula $\{w_{t}\}_{t=0}^{\infty}$
+\begin_inset Formula $\lim_{c\rightarrow\infty}u^{\prime}=0$
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+and 
+\begin_inset Formula $u(x)=u(y)\Leftrightarrow u(\lambda x)=u(\lambda y),\forall\lambda>0$
+\end_inset
+
+ (homotheticity)
 \end_layout
 
 \end_deeper
@@ -707,20 +727,54 @@ Households II
 \series bold
 Optimal behavior 
 \series default
-imply the Euler-equation 
-\begin_inset Formula $\frac{u^{\prime}(c_{t})}{u^{\prime}(c_{t+1})}=\beta R_{t+1}$
+
+\begin_inset VSpace 1mm
 \end_inset
 
 
 \end_layout
 
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Euler-equation:
+\series default
+ 
+\begin_inset Formula $\frac{u^{\prime}(c_{1t})}{u^{\prime}(c_{2t+1})}=\beta R_{t+1}$
+\end_inset
+
+
+\begin_inset VSpace 1mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Saving function:
+\series default
+ 
+\begin_inset Formula $s(w_{t},R_{t+1})=s(1,R_{t+1})w_{t}$
+\end_inset
+
+
+\begin_inset VSpace 1mm
+\end_inset
+
+
+\end_layout
+
+\end_deeper
 \begin_layout Itemize
 
 \series bold
 CRRA utility:
 \series default
  
-\begin_inset Formula $u(c_{t})=\frac{c_{t}^{1-\sigma}}{1-\sigma},\sigma>0$
+\begin_inset Formula $u(c)=\frac{c^{1-\sigma}}{1-\sigma},\sigma>0$
 \end_inset
 
  
@@ -737,7 +791,7 @@ CRRA utility:
 Euler-equation
 \begin_inset Formula 
 \[
-c_{t+1}=\left(\beta R_{t\text{+1}}\right)^{1/\sigma}c_{t}
+c_{2t+1}=\left(\beta R_{t+1}\right)^{1/\sigma}c_{1t}
 \]
 
 \end_inset
@@ -748,7 +802,7 @@ c_{t+1}=\left(\beta R_{t\text{+1}}\right)^{1/\sigma}c_{t}
 \begin_layout Enumerate
 
 \series bold
-Consumption function
+Saving function
 \series default
 
 \begin_inset VSpace 1mm
@@ -759,9 +813,7 @@ Consumption function
 
 \begin_inset Formula 
 \begin{eqnarray*}
-c_{0} & = & \frac{1}{\theta}[R_{0}a_{0}+h_{0}]\\
- &  & h_{0}\equiv\sum_{t=0}^{\infty}\mathcal{R}_{t}^{-1}w_{t}\\
- &  & \theta\equiv\sum_{t=0}^{\infty}(\beta^{t}\mathcal{R}_{t})^{1/\sigma}\mathcal{R}_{t}^{-1}
+s(w_{t},r_{t+1}) & = & \left(1-\frac{1}{1+R_{t+1}^{\frac{1-\sigma}{\sigma}}\beta^{\frac{1}{\sigma}}}\right)w_{t}
 \end{eqnarray*}
 
 \end_inset
@@ -834,8 +886,8 @@ first order conditions
 imply
 \begin_inset Formula 
 \begin{eqnarray*}
-f^{\prime}(k_{t}) & = & r_{t}\\
-f(k_{t})-f^{\prime}(k_{t})k_{t} & = & w_{t}
+r(k_{t})\equiv f^{\prime}(k_{t}) & = & r_{t}\Rightarrow R(k_{t})=1+r(k_{t})-\delta\\
+w(k_{t})\equiv f(k_{t})-f^{\prime}(k_{t})k_{t} & = & w_{t}
 \end{eqnarray*}
 
 \end_inset
@@ -866,36 +918,102 @@ Low-of-motion
 
 \begin_deeper
 \begin_layout Itemize
+
+\series bold
+Only the young save 
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+
+\series default
+
+\begin_inset Formula 
+\[
+K_{t+1}=s(w_{t},R_{t+1})L_{t}\Leftrightarrow k_{t+1}=\frac{s(w_{t},R_{t+1})}{1+n}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
 The 
 \series bold
 law-of-motion
 \series default
-,
+, 
+\begin_inset Formula $k_{t+1}=\Gamma(k_{t})$
+\end_inset
+
+, is given as the solution to
+\begin_inset Formula 
+\[
+\Gamma(k_{t})=\frac{s(w(k_{t}),R(\Gamma(k_{t})))}{1+n}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+For 
 \series bold
- 
-\begin_inset Formula $(k_{t+1},c_{t+1})=\Gamma(k_{t},c_{t})$
-\end_inset
-
-
+logarithmic utility
 \series default
-, is given by the solution to the equation system
+ we have 
 \begin_inset Formula 
-\begin{eqnarray*}
-k_{t+1} & = & k_{t}(1-\delta)+f(k_{t})-c_{t}
-\end{eqnarray*}
+\[
+k_{t+1}=\Gamma(k_{t})=\frac{1}{(1+\beta^{-1})(1+n)}w(k_{t})
+\]
 
 \end_inset
 
 
-\begin_inset VSpace -6mm
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
 \end_inset
 
 
-\begin_inset Formula 
-\begin{eqnarray*}
-\frac{u^{\prime}(c_{t})}{u^{\prime}(c_{t+1})} & = & \beta(1+f^{\prime}(k_{t+1})-\delta)
-\end{eqnarray*}
+\end_layout
 
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Nowhere flat
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Derivatives of the saving function
+\series default
+: 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $s_{w}=s_{w}(w_{t},R_{t+1})$
+\end_inset
+
+ and 
+\begin_inset Formula $s_{R}=s_{R}(w_{t},R_{t+1})$
+\end_inset
+
+
+\begin_inset VSpace 1mm
 \end_inset
 
 
@@ -904,51 +1022,33 @@ k_{t+1} & = & k_{t}(1-\delta)+f(k_{t})-c_{t}
 \begin_layout Itemize
 
 \series bold
-Curvers (loci) 
+Total differentiation
 \series default
-where 
-\begin_inset Formula $k$
+ give us
+\begin_inset Formula 
+\begin{eqnarray*}
+dk_{t+1} & = & \frac{1}{1+n}[s_{w}w^{\prime}(k_{t})dk_{t}+s_{r}R^{\prime}(k_{t+1})dk_{t+1}]\Leftrightarrow\\
+(1+n-s_{R}R^{\prime}(k_{t+1}))\frac{dk_{t+1}}{dk_{t}} & = & s_{w}w^{\prime}(k_{t})dk_{t}\Leftrightarrow\\
+\frac{dk_{t+1}}{dk_{t}} & = & \frac{s_{w}w^{\prime}(k_{t})dk_{t}}{1+n-s_{R}R^{\prime}(k_{t+1})}\neq0
+\end{eqnarray*}
+
 \end_inset
 
- or 
-\begin_inset Formula $c$
-\end_inset
 
- is constant
 \begin_inset VSpace 1mm
 \end_inset
 
 
 \end_layout
 
-\begin_deeper
-\begin_layout Enumerate
-\begin_inset Formula $k$
-\end_inset
+\begin_layout Itemize
 
-: 
-\begin_inset Formula $\{(k,c)\,|\,c=f(k)-\delta k\}$
-\end_inset
-
- 
-\begin_inset VSpace 1mm
-\end_inset
-
-
+\series bold
+Implication:
+\series default
+ The transition curve is nowhere flat
 \end_layout
 
-\begin_layout Enumerate
-\begin_inset Formula $c$
-\end_inset
-
-: 
-\begin_inset Formula $\{(k,c)\,|\,1=\left(\beta(1+f^{\prime}(k)-\delta)\right)^{1/\sigma}\}$
-\end_inset
-
- 
-\end_layout
-
-\end_deeper
 \end_deeper
 \begin_layout Standard
 \begin_inset Separator plain
@@ -996,7 +1096,7 @@ capital,
 , solves
 \begin_inset Formula 
 \[
-\beta(1+f^{\prime}(k^{\ast})-\delta)=1
+k^{\ast}=\frac{s(w(k^{\ast}),R(k^{\ast}))}{1+n}
 \]
 
 \end_inset
@@ -1005,15 +1105,20 @@ capital,
 \end_layout
 
 \begin_layout Enumerate
-consumption, 
-\begin_inset Formula $c^{\ast}$
+consumption, for the young, 
+\begin_inset Formula $c_{1}^{\ast}$
+\end_inset
+
+, and old, 
+\begin_inset Formula $c_{2}^{\ast}$
 \end_inset
 
 , then equals
 \begin_inset Formula 
-\[
-c^{\ast}=f(k^{\ast})-\delta k^{\ast}
-\]
+\begin{eqnarray*}
+c_{1}^{\ast} & = & w(k^{\ast})-s(w(k^{\ast}),R(k^{\ast}))\\
+c_{2}^{\ast} & = & R(k^{\ast})
+\end{eqnarray*}
 
 \end_inset
 
@@ -1024,10 +1129,18 @@ c^{\ast}=f(k^{\ast})-\delta k^{\ast}
 \begin_layout Itemize
 
 \series bold
-Cobb-Douglas:
+Logarithmic utlity 
+\series default
+and 
+\series bold
+Cobb-Douglas 
+\series default
+implies
+\series bold
+ 
 \begin_inset Formula 
 \[
-k^{\ast}=\left(\frac{\frac{1}{\beta}-1+\delta}{\alpha}\right)^{\frac{1}{\alpha-1}}
+k^{\ast}=\left(\frac{1-\alpha}{(1+\beta^{-1})(1+n)}\right)^{\frac{1}{1-\alpha}}
 \]
 
 \end_inset
@@ -1048,11 +1161,108 @@ k^{\ast}=\left(\frac{\frac{1}{\beta}-1+\delta}{\alpha}\right)^{\frac{1}{\alpha-1
 status open
 
 \begin_layout Plain Layout
-Find initial consumption, 
-\begin_inset Formula $c_{0}$
+Find transition curve 
+\end_layout
+
 \end_inset
 
 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset VSpace -1mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Choose a 
+\series bold
+grid
+\series default
+ 
+\begin_inset Formula $\mathcal{G}\equiv\{k^{0},k^{1},\dots,k^{\#}\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+For each 
+\begin_inset Formula $k_{+}^{j}\in\mathcal{G}\equiv\{k^{0},k^{1},\dots,k^{\#}\}$
+\end_inset
+
+ 
+\series bold
+solve
+\series default
+ for 
+\begin_inset Formula $k^{j}$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+k_{+}^{j}=\frac{s(w(k^{j}),R(k_{+}^{j}))}{1+n}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The 
+\series bold
+transition curve 
+\series default
+is given by 
+\begin_inset Formula $\{(k^{0},k_{+}^{0}),(k^{1},k_{+}^{1}),\dots,(k^{\#},k_{+}^{\#})\}$
+\end_inset
+
+
+\begin_inset VSpace 5mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Why not fix 
+\begin_inset Formula $k$
+\end_inset
+
+ and solve for 
+\begin_inset Formula $k_{+}$
+\end_inset
+
+?
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+Because there might be multiple solutions.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Simulate
 \end_layout
 
 \end_inset
@@ -1074,15 +1284,56 @@ Choose
 initial capital
 \series default
  
-\begin_inset Formula $k_{0}>0$
+\begin_inset Formula $k_{0}$
 \end_inset
 
- and 
+
+\begin_inset VSpace 1mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+For each 
 \series bold
-tolerance level
+time step
 \series default
  
-\begin_inset Formula $\tau>0$
+\begin_inset Formula $t\in\{1,2,\dots,T\}$
+\end_inset
+
+ do:
+\begin_inset VSpace 1mm
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Construct the 
+\series bold
+set
+\series default
+ 
+\begin_inset Formula $\mathcal{J}(k_{t-1})=\{j\in\{2,\dots\#\}\,|\,k_{t-1}\in\{k^{j-1},k^{j}\}\}$
+\end_inset
+
+
+\begin_inset VSpace 1mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Choose a 
+\series bold
+random
+\series default
+ 
+\begin_inset Formula $j\in\mathcal{J}(k_{t-1})$
 \end_inset
 
 
@@ -1094,258 +1345,16 @@ tolerance level
 
 \begin_layout Enumerate
 Set 
+\begin_inset Formula $k_{t}=k_{+}^{j-1}+\frac{k_{+}^{j}-k_{+}^{j-1}}{k^{j}-k^{j-1}}[k_{t-1}-k^{j-1}]$
+\end_inset
+
+ (
 \series bold
-initial bounds
+linear interpolation
 \series default
- as 
-\begin_inset Formula $(\underline{c}_{0},\overline{c}_{0})=$
-\end_inset
-
- 
-\begin_inset Formula $\begin{cases}
-(0,f(k_{0})-\delta k_{0}) & \text{if }k_{0}<k^{\ast}\\
-(f(k_{0})-\delta k_{0},f(k_{0})) & \text{if }k_{0}\geq k^{\ast}
-\end{cases}$
-\end_inset
-
-
-\begin_inset VSpace 1mm
-\end_inset
-
-
+)
 \end_layout
 
-\begin_layout Enumerate
-Set 
-\begin_inset Formula $c_{0}=(\underline{c}_{0}+\overline{c}_{0})/2$
-\end_inset
-
- and 
-\begin_inset Formula $c=c_{0}$
-\end_inset
-
- and 
-\begin_inset Formula $k=k_{0}$
-\end_inset
-
-
-\begin_inset VSpace 1mm
-\end_inset
-
-
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Update 
-\series default
-using the law-of-motion: 
-\begin_inset Formula $(k,c)=\Gamma(k,c)$
-\end_inset
-
- 
-\begin_inset VSpace 1mm
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[a.]
-\end_layout
-
-\end_inset
-
-If 
-\begin_inset Formula $\sqrt{(c^{\ast}-c)^{2}+(k^{\ast}-k)^{2}}<\tau$
-\end_inset
-
- 
-\series bold
-stop
-\series default
-
-\begin_inset VSpace 1mm
-\end_inset
-
-
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[b.]
-\end_layout
-
-\end_inset
-
-If 
-\begin_inset Formula $k_{0}\leq k^{\ast}$
-\end_inset
-
- then
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[]
-\end_layout
-
-\end_inset
-
-If 
-\begin_inset Formula $c\leq c^{\ast}\land k\leq k^{\ast}$
-\end_inset
-
- go to step 4
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[]
-\end_layout
-
-\end_inset
-
-If 
-\begin_inset Formula $k>k^{\ast}$
-\end_inset
-
- set 
-\begin_inset Formula $\underline{c}_{0}=c_{0}$
-\end_inset
-
- and go to step 3
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[]
-\end_layout
-
-\end_inset
-
-If 
-\begin_inset Formula $c>c^{\ast}$
-\end_inset
-
- set 
-\begin_inset Formula $\overline{c}_{0}=c_{0}$
-\end_inset
-
- and go to step 3
-\begin_inset VSpace 1mm
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[c.]
-\end_layout
-
-\end_inset
-
-If 
-\begin_inset Formula $k_{0}>k^{\ast}$
-\end_inset
-
- then
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[]
-\end_layout
-
-\end_inset
-
-If 
-\begin_inset Formula $c\geq c^{\ast}\land k\geq k^{\ast}$
-\end_inset
-
- go to step 4
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[]
-\end_layout
-
-\end_inset
-
-If 
-\begin_inset Formula $k<k^{\ast}$
-\end_inset
-
- set 
-\begin_inset Formula $\overline{c}_{0}=c_{0}$
-\end_inset
-
- and go to step 3
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[]
-\end_layout
-
-\end_inset
-
-If 
-\begin_inset Formula $c<c^{\ast}$
-\end_inset
-
- set 
-\begin_inset Formula $\underline{c}_{0}=c_{0}$
-\end_inset
-
- and go to step 3
-\end_layout
-
-\end_deeper
 \end_deeper
 \end_deeper
 \begin_layout Standard
@@ -1374,21 +1383,35 @@ Calibration
 
 \begin_deeper
 \begin_layout Enumerate
-\begin_inset Formula $f(k_{t})=k_{t}^{\alpha}$
+\begin_inset Formula $f(k_{t})=A(\alpha k_{t}^{\rho}+(1-\alpha))^{\frac{1}{\rho}},\,\,A>0,\alpha\in(0,1),\rho<1$
 \end_inset
 
- (Cobb-Douglas)
+ (CES)
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset Formula $\beta=0.98$
+\begin_inset Formula $A=7$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset Formula $\sigma=2$
+\begin_inset Formula $n=0.20$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\beta=\frac{1}{1+0.40}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\sigma=8$
 \end_inset
 
 
@@ -1402,24 +1425,215 @@ Calibration
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset Formula $\delta=0.10$
+\begin_inset Formula $\rho\in[-4.00,-2.00,-1.00,-0.5,-0.25,0.00]$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset Formula $k_{0}=1$
+\begin_inset Formula $\delta=0.60$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Transition curves
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename figs/OLG_transition_curves.pdf
+	width 75text%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Interest rate function, 
+\begin_inset Formula $R(k_{t})$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename figs/OLG_interest_rate_functions.pdf
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Saving rate function, 
+\begin_inset Formula $s(1,R_{t+1})$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+\begin_inset Graphics
+	filename figs/OLG_saving_functions.pdf
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Note: 
+\series default
+
+\begin_inset Formula $\sigma>1$
+\end_inset
+
+ is important for the slope
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Backward bending transition curve for low 
+\begin_inset Formula $\rho$
+\end_inset
+
+ (and high 
+\begin_inset Formula $\sigma$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $k_{t+1}\uparrow\,\Rightarrow\,R_{t+1}\downarrow$
+\end_inset
+
+ (due to 
+\emph on
+falling marginal product
+\emph default
+)
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $R_{t+1}\downarrow\,\Rightarrow\,s_{t}\uparrow$
+\end_inset
+
+ (due to 
+\emph on
+dominating income effect
+\emph default
+, 
+\begin_inset Formula $\sigma>1$
+\end_inset
+
+) 
+\begin_inset Formula $\,\Rightarrow k_{t+1}\uparrow$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset Formula $\tau=10^{-6}$
+\begin_inset Formula $\rho\downarrow$
 \end_inset
 
+ strengthens the 
+\emph on
+first 
+\emph default
+effect
+\end_layout
 
+\begin_layout Enumerate
+\begin_inset Formula $\sigma\uparrow$
+\end_inset
+
+ strengthens the 
+\emph on
+second
+\emph default
+ effect
 \end_layout
 
 \end_deeper
@@ -1430,12 +1644,16 @@ Calibration
 
 \end_layout
 
+\begin_layout Section
+Extension
+\end_layout
+
 \begin_layout Frame
 \begin_inset Argument 4
 status open
 
 \begin_layout Plain Layout
-Phase diagram
+Potential extensions
 \end_layout
 
 \end_inset
@@ -1444,78 +1662,24 @@ Phase diagram
 \end_layout
 
 \begin_deeper
-\begin_layout Standard
-\begin_inset Graphics
-	filename phase_diagram.pdf
-	width 90text%
+\begin_layout Enumerate
 
-\end_inset
-
-
+\series bold
+Government 
+\series default
+(taxes, pensions, and spending)
 \end_layout
 
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
+\begin_layout Enumerate
 
-
+\series bold
+Endogenous labor supply
 \end_layout
 
-\begin_layout Frame
-\begin_inset Argument 4
-status open
+\begin_layout Enumerate
 
-\begin_layout Plain Layout
-Time profiles
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Graphics
-	filename time_profiles.pdf
-	width 90text%
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-Diverging paths
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Graphics
-	filename diverging_paths.pdf
-	width 90text%
-
-\end_inset
-
-
+\series bold
+Multiple periods
 \end_layout
 
 \end_deeper
