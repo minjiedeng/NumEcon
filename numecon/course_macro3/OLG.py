@@ -314,7 +314,7 @@ def interactive_transition_curve():
 
    widgets.interact(transition_curve,        
                     sigma=widgets.FloatSlider(description='$\\sigma$',min=0.5, max=16, step=0.01, value=2,continuous_update=False),
-                    rho=widgets.FloatSlider(description='$\\rho$',min=-8, max=0.99, step=0.01, value=0,continuous_update=False),
+                    rho=widgets.FloatSlider(description='$\\rho$',min=-16, max=0.99, step=0.01, value=0,continuous_update=False),
                     ) 
 
 def transition_curve(sigma,rho):
