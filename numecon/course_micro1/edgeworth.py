@@ -46,7 +46,7 @@ def _figure(par,p1,omega_1,omega_2,alpha_A,beta_A,alpha_B,beta_B):
     x1_B,x2_B,u_max_B = consumer.maximization(par)
     ax.plot(1-x1_B,1-x2_B,'ro',color='black')
     ax.text((1-x1_B)*1.03,(1-x2_B)*1.03,'B')
-    consumer.indifference_curve(ax,u_max_B,par,inv=True)
+    consumer.indifference_curve(ax,u_max_B,par,inv=True,color='firebrick')
 
     line1 = f'excess demand of good 1: {x1_A+x1_B-1:6.2f}\n'
     line2 = f'excess demand of good 2: {x2_A+x2_B-1:6.2f}\n'
@@ -138,12 +138,6 @@ def settings():
 # cases #
 #########
 
-def cobb_douglas():
-
-    par = settings()
-    consumer.utility_functions(par,'cobb_douglas')
-    figure(par)
-
 def ces():
 
     par = settings()
@@ -164,29 +158,3 @@ def ces():
     par.beta_max = 10.01
 
     figure(par)
-
-def perfect_complements():
-
-    par = settings()
-    consumer.utility_functions(par,'leontief')
-    figure(par)
-
-def quasi_linear_log():
-
-    par = settings()
-    consumer.utility_functions(par,'quasi_linear',v=np.log)
-    
-    par.alpha = 3.00
-    par.beta = 1.00
-
-    figure(par)
-
-def quasi_linear_sqrt():
-
-    par = settings()
-    consumer.utility_functions(par,'quasi_linear',np.sqrt)
-    
-    par.alpha = 3.00
-    par.beta = 1.00
-
-    figure(par)    
