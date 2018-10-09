@@ -4,6 +4,7 @@ channels:
 dependencies:
   - python
   - requests
+  - numba
   - numpy
   - pandas
   - scipy
