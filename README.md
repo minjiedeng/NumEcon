@@ -14,7 +14,9 @@ This is the GitHub repository for the course **Introduction to programming and n
 
 **Simple**: [Launch the interactive version using Binder](https://mybinder.org/v2/gh/JeppeDruedahl/NumEcon/master) (no installation required)
 
-**Advanced**: [Install your own Python workspace](https://github.com/JeppeDruedahl/NumEcon/wiki/Installation-Notes)
+**Advanced**: 
+
+1. [Install your own Python workspace](https://github.com/JeppeDruedahl/NumEcon/wiki/Installation-Notes)
 
 # Course Plan
 
