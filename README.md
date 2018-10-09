@@ -4,6 +4,8 @@
 
 **Notice:** *Want to be a teaching assistant for this course? Contact Jeppe Druedahl (<jeppe.druedahl@econ.ku.dk>)*.
 
+[Official course description](http://kurser.ku.dk/course/a%C3%98ka08232u/2018-2019)
+
 # NumEcon
 
 This is the GitHub repository for the course **Introduction to programming and numerical analysis**. In addition to the files for the course itself, this repository also contains code examples for various other economics courses taught at University of Copenhagen, Department of Economics. For example, the folder "course_micro1" contains examples from an intermediate level microeconomics course. 
