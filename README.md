@@ -14,13 +14,18 @@ This is the GitHub repository for the course **Introduction to programming and n
 
 **Simple**: [Launch the interactive version using Binder](https://mybinder.org/v2/gh/JeppeDruedahl/NumEcon/master) (no installation required)
 
-**Advanced**: [Install your own Python workspace](https://github.com/JeppeDruedahl/NumEcon/wiki/Installation-Notes)
+**Advanced**: 
+
+1. [Install your own Python workspace](https://github.com/JeppeDruedahl/NumEcon/wiki/Installation-Notes)
+2. [Work-flows](https://github.com/JeppeDruedahl/NumEcon/wiki/Work-Flows)
 
 # Course Plan
 
-See [here](https://github.com/JeppeDruedahl/NumEcon/wiki/Course-Plan)
+See preliminary [Course Plan](https://github.com/JeppeDruedahl/NumEcon/wiki/Course-Plan)
 
 # Course Description
+
+[Course description on kurser.ku.dk](http://kurser.ku.dk/course/a%C3%98ka08232u/2018-2019) (with exam details etc.)
 
 This course introduces you to programming and enables you to numerically solve simple economic models and perform basic data analysis. This will e.g. allow you to both visualize solutions, easily test assumptions with respect to functional forms and parameters, and consider more realistic models, which are solvable numerically but not algebraically.  
 
