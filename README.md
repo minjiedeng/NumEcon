@@ -17,10 +17,11 @@ This is the GitHub repository for the course **Introduction to programming and n
 **Advanced**: 
 
 1. [Install your own Python workspace](https://github.com/JeppeDruedahl/NumEcon/wiki/Installation-Notes)
+2. [Work-flows](https://github.com/JeppeDruedahl/NumEcon/wiki/Work-Flows)
 
 # Course Plan
 
-See [here](https://github.com/JeppeDruedahl/NumEcon/wiki/Course-Plan)
+See preliminary [Course Plan](https://github.com/JeppeDruedahl/NumEcon/wiki/Course-Plan)
 
 # Course Description
 
