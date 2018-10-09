@@ -4,7 +4,7 @@
 
 **Notice:** *Want to be a teaching assistant for this course? Contact Jeppe Druedahl (<jeppe.druedahl@econ.ku.dk>)*.
 
-[Official course description](http://kurser.ku.dk/course/a%C3%98ka08232u/2018-2019)
+**Link:** [Official course description](http://kurser.ku.dk/course/a%C3%98ka08232u/2018-2019)
 
 # NumEcon
 
