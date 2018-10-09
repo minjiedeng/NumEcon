@@ -141,7 +141,7 @@ status open
 
 
 \backslash
-title{Solving the OLG Model
+title{Solving an OLG Model
 \backslash
 vspace{-2mm}}
 \end_layout
@@ -384,7 +384,7 @@ Introduction
 \series bold
 Subject: 
 \series default
-Solve the OLG model numerically (using Python)
+Solve an OLG model numerically (using Python)
 \end_layout
 
 \begin_layout Itemize
@@ -1645,7 +1645,7 @@ second
 \end_layout
 
 \begin_layout Section
-Extension
+Extensions
 \end_layout
 
 \begin_layout Frame

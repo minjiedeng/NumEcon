@@ -141,7 +141,7 @@ status open
 
 
 \backslash
-title{Solving a Ramsey Model
+title{Solving an Aiyagari Model
 \backslash
 vspace{-2mm}}
 \end_layout
@@ -352,7 +352,7 @@ Introduction
 \series bold
 Subject: 
 \series default
-Solve a Ramsey model numerically (using Python)
+Solve an Aiyagari model numerically (using Python)
 \end_layout
 
 \begin_layout Itemize
@@ -415,7 +415,7 @@ Notebook:
 \series default
  course_macro3
 \backslash
-Ramsey.ipynb
+Aiyagari.ipynb
 \end_layout
 
 \begin_layout Enumerate
@@ -427,7 +427,7 @@ Code:
 \backslash
 course_macro3
 \backslash
-Ramsey.py
+Aiyagari.py
 \end_layout
 
 \end_deeper
@@ -479,80 +479,28 @@ Households
 ):
 \series bold
  
-\series default
-
-\begin_inset Newline newline
-\end_inset
-
-Own capital, supply labor and consume.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Firms: 
-\series default
-Rent capital and hire labor to produce.
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Variables:
 \end_layout
 
 \begin_deeper
 \begin_layout Enumerate
-Capital: 
-\begin_inset Formula $K_{t}$
-\end_inset
-
-
+Own capital
 \end_layout
 
 \begin_layout Enumerate
-Labor supply: 
-\begin_inset Formula $L_{t}$
-\end_inset
-
-
+Supply labor (exogenous and stochastic) 
 \end_layout
 
 \begin_layout Enumerate
-Output: 
-\begin_inset Formula $Y_{t}$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Enumerate
-Consumption: 
-\begin_inset Formula $C_{t}$
-\end_inset
-
-
+Consume
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
 
 \series bold
-Per worker:
+Firms: 
 \series default
- 
-\begin_inset Formula $k_{t}\equiv K_{t}/L_{t}$
-\end_inset
-
-, 
-\begin_inset Formula $y_{t}\equiv Y_{t}/L_{t}$
-\end_inset
-
- and 
-\begin_inset Formula $c_{t}\equiv C_{t}/L_{t}$
-\end_inset
-
-
+Rent capital and hire labor to produce
 \end_layout
 
 \begin_layout Itemize
@@ -616,7 +564,7 @@ where
 status open
 
 \begin_layout Plain Layout
-Households I
+Households
 \end_layout
 
 \end_inset
@@ -624,52 +572,31 @@ Households I
 
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-Inealastically supply labour
-\series default
-, 
-\begin_inset Formula $L_{t}=1$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-Maximize the discounted sum of utility from consumption 
-\series default
-
-\begin_inset Formula 
-\[
-\max_{\{c_{t}\}_{t=0}^{\infty}}\sum_{t=0}^{\infty}\beta^{t}u(c_{t}),\,\,\,u^{\prime}>0,u^{\prime\prime}<0
-\]
-
-\end_inset
-
-
-\begin_inset VSpace -2mm
-\end_inset
-
-under the constraints
-\begin_inset VSpace -1mm
+\begin_layout Frame
+Solve the following recursive problem starting in period 
+\begin_inset Formula $0$
 \end_inset
 
 
 \begin_inset Formula 
-\begin{gather*}
-k_{t+1}=R_{t}k_{t}+w_{t}-c_{t}\\
-\lim_{t\to\infty}\mathcal{R}_{t}^{-1}k_{t}\ge0\\
-\mathcal{R}_{t}=\prod_{j=0}^{t}R_{j}\\
-k_{0}\text{ givet}
-\end{gather*}
+\begin{eqnarray*}
+v_{t}(a_{t-1},z_{t},u_{t}) & = & \max_{c_{t}}\frac{c_{t}^{1-\sigma}}{1-\sigma}+\beta\mathbb{E}_{t}[v_{t+1}(a_{t},z_{t+1},u_{t+1})]\\
+ & \text{s.t.}\\
+l_{t} & = & \begin{cases}
+\frac{z_{t}-\pi\mu}{1-\pi} & \text{if }u_{t}=0\\
+\mu & \text{else}
+\end{cases}\\
+a_{t}+c_{t} & = & R_{t}a_{t-1}+w_{t}l_{t}\\
+u_{t+1} & = & \begin{cases}
+1 & \text{with prob. }\pi\\
+0 & \text{else}
+\end{cases}\\
+a_{t} & \geq & 0
+\end{eqnarray*}
 
 \end_inset
 
-and given time paths for 
+given time paths for 
 \begin_inset Formula $\{R_{t}\}_{t=0}^{\infty}$
 \end_inset
 
@@ -677,10 +604,17 @@ and given time paths for
 \begin_inset Formula $\{w_{t}\}_{t=0}^{\infty}$
 \end_inset
 
+, and where 
+\begin_inset Formula $z_{t}\in\mathcal{Z}$
+\end_inset
 
+ (
+\begin_inset Formula $\mathbb{E}[z_{t}]=1$
+\end_inset
+
+) is a first order Markov process
 \end_layout
 
-\end_deeper
 \begin_layout Standard
 \begin_inset Separator plain
 \end_inset
@@ -693,7 +627,7 @@ and given time paths for
 status open
 
 \begin_layout Plain Layout
-Households II
+Households (reformulation)
 \end_layout
 
 \end_inset
@@ -701,67 +635,22 @@ Households II
 
 \end_layout
 
-\begin_deeper
-\begin_layout Itemize
-
-\series bold
-Optimal behavior 
-\series default
-imply the Euler-equation 
-\begin_inset Formula $\frac{u^{\prime}(c_{t})}{u^{\prime}(c_{t+1})}=\beta R_{t+1}$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-CRRA utility:
-\series default
- 
-\begin_inset Formula $u(c_{t})=\frac{c_{t}^{1-\sigma}}{1-\sigma},\sigma>0$
-\end_inset
-
- 
-\begin_inset VSpace 1mm
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-
-\series bold
-Euler-equation
-\begin_inset Formula 
-\[
-c_{t+1}=\left(\beta R_{t\text{+1}}\right)^{1/\sigma}c_{t}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Consumption function
-\series default
-
-\begin_inset VSpace 1mm
-\end_inset
-
-
-\series bold
-
+\begin_layout Frame
 \begin_inset Formula 
 \begin{eqnarray*}
-c_{0} & = & \frac{1}{\theta}[R_{0}k_{0}+h_{0}]\\
- &  & h_{0}\equiv\sum_{t=0}^{\infty}\mathcal{R}_{t}^{-1}w_{t}\\
- &  & \theta\equiv\sum_{t=0}^{\infty}(\beta^{t}\mathcal{R}_{t})^{1/\sigma}\mathcal{R}_{t}^{-1}
+v_{t}(m_{t},z_{t}) & = & \max_{c_{t}}\frac{c_{t}^{1-\sigma}}{1-\sigma}+\beta\mathbb{E}_{t}[v_{t+1}(m_{t+1},z_{t+1})]\\
+ & \text{s.t.}\\
+a_{t} & = & m_{t}-c_{t}\\
+u_{t+1} & = & \begin{cases}
+1 & \text{with prob.}\pi\\
+0 & \text{else}
+\end{cases}\\
+l_{t+1} & = & \begin{cases}
+\frac{z_{t+1}-\pi\mu}{1-\pi} & \text{if }u_{t+1}=0\\
+\mu & \text{else}
+\end{cases}\\
+m_{t+1} & = & R_{t+1}a_{t}+w_{t+1}l_{t+1}\\
+a_{t} & \geq & 0
 \end{eqnarray*}
 
 \end_inset
@@ -769,8 +658,6 @@ c_{0} & = & \frac{1}{\theta}[R_{0}k_{0}+h_{0}]\\
 
 \end_layout
 
-\end_deeper
-\end_deeper
 \begin_layout Standard
 \begin_inset Separator plain
 \end_inset
@@ -834,8 +721,8 @@ first order conditions
 imply
 \begin_inset Formula 
 \begin{eqnarray*}
-f^{\prime}(k_{t}) & = & r_{t}\\
-f(k_{t})-f^{\prime}(k_{t})k_{t} & = & w_{t}
+r(k_{t})\equiv f^{\prime}(k_{t}) & = & r_{t}\\
+w(k_{t})\equiv f(k_{t})-f^{\prime}(k_{t})k_{t} & = & w_{t}
 \end{eqnarray*}
 
 \end_inset
@@ -856,7 +743,7 @@ f(k_{t})-f^{\prime}(k_{t})k_{t} & = & w_{t}
 status open
 
 \begin_layout Plain Layout
-Low-of-motion
+Definition: Stationary equilibrium
 \end_layout
 
 \end_inset
@@ -865,90 +752,274 @@ Low-of-motion
 \end_layout
 
 \begin_deeper
-\begin_layout Itemize
-The 
-\series bold
-law-of-motion
-\series default
-,
-\series bold
- 
-\begin_inset Formula $(k_{t+1},c_{t+1})=\Gamma(k_{t},c_{t})$
+\begin_layout Standard
+A 
+\emph on
+stationary equilibrium
+\emph default
+ is a set of quantities 
+\begin_inset Formula $K^{\ast}$
 \end_inset
 
-
-\series default
-, is given by the solution to the equation system
-\begin_inset Formula 
-\begin{eqnarray*}
-k_{t+1} & = & k_{t}(1-\delta)+f(k_{t})-c_{t}
-\end{eqnarray*}
-
+ and 
+\begin_inset Formula $L^{\ast}$
 \end_inset
 
-
-\begin_inset VSpace -6mm
+, a cdf 
+\begin_inset Formula $\kappa^{\ast}$
 \end_inset
 
-
-\begin_inset Formula 
-\begin{eqnarray*}
-\frac{u^{\prime}(c_{t})}{u^{\prime}(c_{t+1})} & = & \beta(1+f^{\prime}(k_{t+1})-\delta)
-\end{eqnarray*}
-
+, a consumption function 
+\begin_inset Formula $c^{\ast}(m_{t},z_{t})$
 \end_inset
 
+, and prices 
+\begin_inset Formula $R^{\ast}$
+\end_inset
 
+ and 
+\begin_inset Formula $w^{\ast}$
+\end_inset
+
+ such that
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{1mm}
 \end_layout
 
-\begin_layout Itemize
-
-\series bold
-Curves (loci) 
-\series default
-where 
-\begin_inset Formula $k$
-\end_inset
-
- or 
-\begin_inset Formula $c$
-\end_inset
-
- is constant
-\begin_inset VSpace 1mm
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-\begin_inset Formula $k$
-\end_inset
-
-: 
-\begin_inset Formula $\{(k,c)\,|\,c=f(k)-\delta k\}$
-\end_inset
-
- 
-\begin_inset VSpace 1mm
 \end_inset
 
 
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset Formula $c$
+The prices are determined by optimal firm behavior, i.e.
+ 
+\begin_inset Formula $R^{\ast}=1+r(K^{\ast}/L^{\ast})-\delta$
 \end_inset
 
-: 
-\begin_inset Formula $\{(k,c)\,|\,1=\beta(1+f^{\prime}(k)-\delta)\}$
+ and 
+\begin_inset Formula $w=w(K^{\ast}/L^{\ast})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $c(\bullet)$
+\end_inset
+
+ solve the household problem given constant prices 
+\begin_inset Formula $R^{\ast}$
+\end_inset
+
+ and 
+\begin_inset Formula $w^{\ast}$
 \end_inset
 
  
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\kappa^{\ast}$
+\end_inset
+
+ is the invariant cdf over 
+\begin_inset Formula $a_{t-1}$
+\end_inset
+
+ and 
+\begin_inset Formula $z_{t}$
+\end_inset
+
+ implied by the solution to the household problem
+\end_layout
+
+\begin_layout Enumerate
+The labor market clears, i.e.
+ 
+\begin_inset Formula $L^{\ast}=\int l_{t}d\kappa$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The capital market clears, i.e.
+ 
+\begin_inset Formula $K^{\ast}=\int a_{t-1}d\kappa$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{1mm}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Definition: Transition path
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+A 
+\emph on
+transition path
+\emph default
+ given an initial cdf 
+\begin_inset Formula $\kappa_{-1}$
+\end_inset
+
+, is paths of quantities 
+\begin_inset Formula $K_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $L_{t}$
+\end_inset
+
+, cdfs 
+\begin_inset Formula $\kappa_{t}$
+\end_inset
+
+, consumption functions 
+\begin_inset Formula $c_{t}(m_{t},z_{t})$
+\end_inset
+
+, and prices 
+\begin_inset Formula $R_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{t}$
+\end_inset
+
+ such that for all 
+\begin_inset Formula $t$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{1mm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The prices are determined by optimal firm behavior, i.e.
+ 
+\begin_inset Formula $R_{t}=1+r(K_{t}/L_{t})-\delta$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{t}=w(K_{t}/L_{t})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $c_{t}(\bullet)$
+\end_inset
+
+ solve the household problem given paths for 
+\begin_inset Formula $R_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\kappa_{t}$
+\end_inset
+
+ are cdfs over 
+\begin_inset Formula $a_{t-1}$
+\end_inset
+
+ and 
+\begin_inset Formula $z_{t}$
+\end_inset
+
+ implied by the solutions to the household problem
+\end_layout
+
+\begin_layout Enumerate
+The labor market clears, i.e.
+ 
+\begin_inset Formula $L_{t}=\int l_{t}d\kappa$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The capital market clears, i.e.
+ 
+\begin_inset Formula $K_{t}=\int a_{t-1}d\kappa$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{1mm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \end_deeper
 \begin_layout Standard
 \begin_inset Separator plain
@@ -966,7 +1037,7 @@ Solution algorithm
 status open
 
 \begin_layout Plain Layout
-Find steady state
+Solve household problem
 \end_layout
 
 \end_inset
@@ -976,12 +1047,12 @@ Find steady state
 
 \begin_deeper
 \begin_layout Itemize
-In 
+
 \series bold
-steady state
+Infinite horizon:
 \series default
-:
-\begin_inset VSpace 1mm
+ 
+\begin_inset Formula $c^{\ast}(m_{t},z_{t})$
 \end_inset
 
 
@@ -989,50 +1060,75 @@ steady state
 
 \begin_deeper
 \begin_layout Enumerate
-capital, 
-\begin_inset Formula $k^{\ast}$
+Assume 
+\begin_inset Formula $R_{t}=R^{\ast},\forall t$
 \end_inset
 
-, solves
-\begin_inset Formula 
-\[
-\beta(1+f^{\prime}(k^{\ast})-\delta)=1
-\]
-
+ and 
+\begin_inset Formula $w_{t}=w^{\ast},\forall t$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Enumerate
-consumption, 
-\begin_inset Formula $c^{\ast}$
-\end_inset
-
-, then equals
-\begin_inset Formula 
-\[
-c^{\ast}=f(k^{\ast})-\delta k^{\ast}
-\]
-
-\end_inset
-
-
+Solve the infinite horizon household problem using dynamic programming
 \end_layout
 
 \end_deeper
 \begin_layout Itemize
 
 \series bold
-Cobb-Douglas:
-\begin_inset Formula 
-\[
-k^{\ast}=\left(\frac{\frac{1}{\beta}-1+\delta}{\alpha}\right)^{\frac{1}{\alpha-1}}
-\]
+Transition path: 
+\series default
 
+\begin_inset Formula $c^{\ast}(m_{t},z_{t})$
+\end_inset
+
+ for 
+\begin_inset Formula $t\in\{1,2,\dots,\mathcal{T}\}$
 \end_inset
 
 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Assume known paths for 
+\begin_inset Formula $R_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $w_{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Set 
+\begin_inset Formula $c_{\mathcal{T}+1}(m_{\mathcal{T}+1},z_{\mathcal{T}+1})=c^{\ast}(m_{\mathcal{T}+1},z_{\mathcal{T}+1})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Solve backwards 
+\begin_inset Formula $\mathcal{T}$
+\end_inset
+
+ periods using dynamic programming
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Dynamic programming:
+\series default
+ The code uses a variant of the endogenous grid method, alternatively a
+ value function iteration algorithm could be used
 \end_layout
 
 \end_deeper
@@ -1048,11 +1144,7 @@ k^{\ast}=\left(\frac{\frac{1}{\beta}-1+\delta}{\alpha}\right)^{\frac{1}{\alpha-1
 status open
 
 \begin_layout Plain Layout
-Find initial consumption, 
-\begin_inset Formula $c_{0}$
-\end_inset
-
-
+Find stationary equilibrium
 \end_layout
 
 \end_inset
@@ -1061,91 +1153,86 @@ Find initial consumption,
 \end_layout
 
 \begin_deeper
+\begin_layout Enumerate
+Guess on 
+\begin_inset Formula $R^{\ast}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $w^{\ast}=w(r^{-1}(R^{\ast}-1+\delta)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Solve the infinite horizon household problem
+\end_layout
+
+\begin_layout Enumerate
+Simulate a panel of 
+\begin_inset Formula $N$
+\end_inset
+
+ households for 
+\begin_inset Formula $T$
+\end_inset
+
+ periods
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $k=\frac{1}{N}\sum a_{T}$
+\end_inset
+
+ (from final period)
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $\hat{R}=1+r(k)-\delta$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+If for some tolerance 
+\begin_inset Formula $\iota$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\left|R^{\ast}-\hat{R}\right|<\iota
+\]
+
+\end_inset
+
+then stop, otherwise return to step 1 and update guess appropriately
+\end_layout
+
+\end_deeper
 \begin_layout Standard
-\begin_inset VSpace -1mm
+\begin_inset Separator plain
 \end_inset
 
 
 \end_layout
 
-\begin_layout Enumerate
-Choose 
-\series bold
-initial capital
-\series default
- 
-\begin_inset Formula $k_{0}>0$
-\end_inset
+\begin_layout Frame
+\begin_inset Argument 4
+status open
 
- and 
-\series bold
-tolerance level
-\series default
- 
-\begin_inset Formula $\tau>0$
-\end_inset
-
-
-\begin_inset VSpace 1mm
-\end_inset
-
-
+\begin_layout Plain Layout
+Find transition path
 \end_layout
 
-\begin_layout Enumerate
-Set 
-\series bold
-initial bounds
-\series default
- as 
-\begin_inset Formula $(\underline{c}_{0},\overline{c}_{0})=$
-\end_inset
-
- 
-\begin_inset Formula $\begin{cases}
-(0,f(k_{0})-\delta k_{0}) & \text{if }k_{0}<k^{\ast}\\
-(f(k_{0})-\delta k_{0},f(k_{0})+k_{0}-\delta k_{0}) & \text{if }k_{0}\geq k^{\ast}
-\end{cases}$
-\end_inset
-
-
-\begin_inset VSpace 1mm
-\end_inset
-
-
-\end_layout
-
-\begin_layout Enumerate
-Set 
-\begin_inset Formula $c_{0}=(\underline{c}_{0}+\overline{c}_{0})/2$
-\end_inset
-
- and 
-\begin_inset Formula $c=c_{0}$
-\end_inset
-
- and 
-\begin_inset Formula $k=k_{0}$
-\end_inset
-
-
-\begin_inset VSpace 1mm
-\end_inset
-
-
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Update 
-\series default
-using the law-of-motion: 
-\begin_inset Formula $(k,c)=\Gamma(k,c)$
-\end_inset
-
- 
-\begin_inset VSpace 1mm
 \end_inset
 
 
@@ -1153,200 +1240,73 @@ using the law-of-motion:
 
 \begin_deeper
 \begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[a.]
-\end_layout
-
+Guess on 
+\begin_inset Formula $\{R_{t}\}_{t=0}^{\mathcal{T}}$
 \end_inset
 
-If 
-\begin_inset Formula $\sqrt{(c^{\ast}-c)^{2}+(k^{\ast}-k)^{2}}<\tau$
+ with 
+\begin_inset Formula $R_{t}=R^{\ast},\forall t\geq\mathcal{T}/2$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $\{w_{t}\}_{t=0}^{\mathcal{T}}=\{w(r^{-1}(R_{t}-1+\delta)\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Solve the household problem along the transition path
+\end_layout
+
+\begin_layout Enumerate
+Simulate a panel of 
+\begin_inset Formula $N$
+\end_inset
+
+ households along the transition path
+\end_layout
+
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $\{k_{t}\}_{t=0}^{\mathcal{T}}=\{\frac{1}{N}\sum_{i=1}^{N}a_{t}\}_{t=0}^{\mathcal{T}}$
 \end_inset
 
  
-\series bold
-stop
-\series default
+\end_layout
 
-\begin_inset VSpace 1mm
+\begin_layout Enumerate
+Calculate 
+\begin_inset Formula $\{\tilde{R}_{t}\}_{t=0}^{\mathcal{T}}=\{1+r(k_{t})-\delta\}_{t=0}^{\mathcal{T}}$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset ERT
-status open
+If for some tolerance 
+\begin_inset Formula $\iota$
+\end_inset
 
-\begin_layout Plain Layout
 
-[b.]
-\end_layout
+\begin_inset Formula 
+\[
+\max_{t\in\{1,2,\dots,T\}}\left|R_{t}-\tilde{R}_{t}\right|<\iota
+\]
 
 \end_inset
 
-If 
-\begin_inset Formula $k_{0}\leq k^{\ast}$
-\end_inset
-
- then
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[]
-\end_layout
-
-\end_inset
-
-If 
-\begin_inset Formula $c\leq c^{\ast}\land k\leq k^{\ast}$
-\end_inset
-
- go to step 4
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[]
-\end_layout
-
-\end_inset
-
-If 
-\begin_inset Formula $k>k^{\ast}$
-\end_inset
-
- set 
-\begin_inset Formula $\underline{c}_{0}=c_{0}$
-\end_inset
-
- and go to step 3
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[]
-\end_layout
-
-\end_inset
-
-If 
-\begin_inset Formula $c>c^{\ast}$
-\end_inset
-
- set 
-\begin_inset Formula $\overline{c}_{0}=c_{0}$
-\end_inset
-
- and go to step 3
-\begin_inset VSpace 1mm
+then stop, otherwise return to step 2 with 
+\begin_inset Formula $\{R_{t}\}_{t=0}^{\mathcal{T}}=\{0.9R_{t}+0.1\tilde{R}_{t}\}_{t=0}^{\mathcal{T}}$
 \end_inset
 
 
 \end_layout
 
-\end_deeper
-\begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[c.]
-\end_layout
-
-\end_inset
-
-If 
-\begin_inset Formula $k_{0}>k^{\ast}$
-\end_inset
-
- then
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[]
-\end_layout
-
-\end_inset
-
-If 
-\begin_inset Formula $c\geq c^{\ast}\land k\geq k^{\ast}$
-\end_inset
-
- go to step 4
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[]
-\end_layout
-
-\end_inset
-
-If 
-\begin_inset Formula $k<k^{\ast}$
-\end_inset
-
- set 
-\begin_inset Formula $\overline{c}_{0}=c_{0}$
-\end_inset
-
- and go to step 3
-\end_layout
-
-\begin_layout Enumerate
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[]
-\end_layout
-
-\end_inset
-
-If 
-\begin_inset Formula $c<c^{\ast}$
-\end_inset
-
- set 
-\begin_inset Formula $\underline{c}_{0}=c_{0}$
-\end_inset
-
- and go to step 3
-\end_layout
-
-\end_deeper
-\end_deeper
 \end_deeper
 \begin_layout Standard
 \begin_inset Separator plain
@@ -1388,7 +1348,7 @@ Calibration
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset Formula $\sigma=2$
+\begin_inset Formula $\sigma=4$
 \end_inset
 
 
@@ -1402,21 +1362,32 @@ Calibration
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset Formula $\delta=0.10$
+\begin_inset Formula $\delta=0.08$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset Formula $k_{0}=1$
+\begin_inset Formula $\pi=0.05$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset Formula $\tau=10^{-6}$
+\begin_inset Formula $\mu=0.15$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $z\in\{0.9,1.1\}$
+\end_inset
+
+ with 
+\begin_inset Formula $\text{Pr}[z_{j}|z_{j}]=0.9$
 \end_inset
 
 
@@ -1435,7 +1406,41 @@ Calibration
 status open
 
 \begin_layout Plain Layout
-Phase diagram
+Consumption functions
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Graphics
+	filename figs/Aiyagari_consumption_functions.pdf
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Frame
+\begin_inset Argument 4
+status open
+
+\begin_layout Plain Layout
+Stationary distribution of 
+\begin_inset Formula $a_{t}^{\ast}$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1446,8 +1451,8 @@ Phase diagram
 \begin_deeper
 \begin_layout Standard
 \begin_inset Graphics
-	filename figs/Ramsey_phase_diagram.pdf
-	width 90text%
+	filename figs/Aiyagari_stationary_distribution.pdf
+	width 100text%
 
 \end_inset
 
@@ -1467,7 +1472,11 @@ Phase diagram
 status open
 
 \begin_layout Plain Layout
-Time profiles
+Transition paths (from 
+\begin_inset Formula $a_{t}^{\ast}\cdot0.95$
+\end_inset
+
+)
 \end_layout
 
 \end_inset
@@ -1478,40 +1487,8 @@ Time profiles
 \begin_deeper
 \begin_layout Standard
 \begin_inset Graphics
-	filename figs/Ramsey_time_profiles.pdf
-	width 90text%
-
-\end_inset
-
-
-\end_layout
-
-\end_deeper
-\begin_layout Standard
-\begin_inset Separator plain
-\end_inset
-
-
-\end_layout
-
-\begin_layout Frame
-\begin_inset Argument 4
-status open
-
-\begin_layout Plain Layout
-Diverging paths
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_deeper
-\begin_layout Standard
-\begin_inset Graphics
-	filename figs/Ramsey_diverging_paths.pdf
-	width 90text%
+	filename figs/Aiyagari_transition_path.pdf
+	width 100text%
 
 \end_inset
 
@@ -1555,23 +1532,26 @@ Government
 \begin_layout Enumerate
 
 \series bold
-Temporary shock
-\series default
-(s)
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
-Announced shock
-\series default
-(s)
-\end_layout
-
-\begin_layout Enumerate
-
-\series bold
 Endogenous labor supply
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Multiple assets
+\series default
+ (incl.
+ hoursing)
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+More complex uncertainty
+\end_layout
+
+\begin_layout Enumerate
+(Aggregate uncertainty)
 \end_layout
 
 \end_deeper
