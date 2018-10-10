@@ -69,8 +69,8 @@ def _figure(par,steps,p1_old,p1_new,e1,e2,alpha,beta):
     
     if steps > 3:
         line = f'subtitution: $B-A$   = ({h1-x1:5.2f},{h2-x2:5.2f})\n'
-        line += f'     income: $C_1-B$  = ({x1_fixI-h1:5.2f},{x1_fixI-h2:5.2f})\n'
-        line += f'     wealth: $C_2-C_1$ = ({x1_new-x1_fixI:5.2f},{x1_new-x1_fixI:5.2f})'        
+        line += f'     income: $C_1-B$  = ({x1_fixI-h1:5.2f},{x2_fixI-h2:5.2f})\n'
+        line += f'     wealth: $C_2-C_1$ = ({x1_new-x1_fixI:5.2f},{x2_new-x2_fixI:5.2f})'        
         ax.text(0.45*par.x1_max,0.85*par.x2_max,line)
     
     # d. basic layout

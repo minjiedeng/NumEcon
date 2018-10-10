@@ -5,7 +5,7 @@ from scipy import optimize
 from scipy import interpolate
 from types import SimpleNamespace
 import matplotlib.pyplot as plt
-
+ 
 class AiyagariModel():
 
     ############
@@ -371,7 +371,7 @@ class AiyagariModel():
         self.sim_w = self.w_from_R_func(self.sim_R)
 
 
-@numba.njit(parallel=False)
+@numba.njit(nogil)
 def simulate(a0,z0,sim_R,sim_w,simN,simT,grid_z,grid_m,c_inf,trans_p_z,unemp_p,unemp_b,c_transition_path,transT,seed):
 
     np.random.seed(seed)
