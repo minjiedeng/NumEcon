@@ -1,4 +1,4 @@
-[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/JeppeDruedahl/NumEcon/master)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/JeppeDruedahl/NumEcon/master)
 
 *This page is under development.* 
 
