@@ -4,7 +4,7 @@ from scipy import optimize
 import matplotlib.pyplot as plt
 import ipywidgets as widgets
 
-from . import consumer
+from . import consumer_old as consumer
 
 ##########
 # figure #

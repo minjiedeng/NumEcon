@@ -7,7 +7,7 @@ import ipywidgets as widgets
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection, Line3DCollection
 
-import numecon.course_micro1.consumer as consumer
+from . import consumer_old as consumer
 
 ################
 # 1. exogenous #
